@@ -1,4 +1,4 @@
-import EmailCapture from './EmailCapture';
+import Link from 'next/link';
 
 export default function Hero() {
   return (
@@ -52,9 +52,12 @@ export default function Hero() {
         {/* Event Details */}
         <div className="mb-6">
           <p className="text-[#FFB703] text-lg md:text-xl font-medium tracking-wide">
-            April 21, 2026 at 1:00 PM
+            April 21, 2026 at 12:00 PM <span className="text-white/50 mx-2">|</span> World Innovation Day
           </p>
           <p className="text-white/80 text-base md:text-lg mt-2">
+            Hosted by the Muskegon Innovation Hub
+          </p>
+          <p className="text-white/60 text-sm mt-1">
             Muskegon Convention Center
           </p>
         </div>
@@ -70,15 +73,22 @@ export default function Hero() {
           with Michigan's brightest innovators and entrepreneurs.
         </p>
         
-        {/* Email Capture */}
-        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-white/10 max-w-lg mx-auto">
-          <h3 className="text-white font-semibold text-lg mb-2">
-            Be the First to Know
-          </h3>
-          <p className="text-white/60 text-sm mb-4">
-            Sign up to receive updates and early registration access.
+        {/* Registration CTA */}
+        <div className="mb-8 relative z-20">
+          <Link
+            href="https://www.gvsu.edu/mihub/module-events-view.htm?siteModuleId=AB55EC2F-97B9-3977-1FB8FF824B6BF2B2&eventId=CD785BA0-B5E4-B275-AF231E3EC8B750F2"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-[#001133] bg-[#FFB703] rounded-full hover:bg-white hover:text-[#001133] transition-all duration-300 transform hover:scale-105 shadow-[0_0_20px_rgba(255,183,3,0.4)] hover:shadow-[0_0_30px_rgba(255,255,255,0.6)]"
+          >
+            Register Now
+            <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </Link>
+          <p className="text-white/50 text-sm mt-4">
+            Space is limited. Secure your spot today.
           </p>
-          <EmailCapture />
         </div>
       </div>
       

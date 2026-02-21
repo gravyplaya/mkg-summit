@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { getSponsors } from "@/lib/api";
+import type { Sponsors as SponsorType } from "@/payload-types";
 
 const sponsorshipTiers = [
   {
@@ -56,32 +58,48 @@ const sponsorshipTiers = [
   },
 ];
 
-const currentSponsors = {
-  platinum: [
-    { name: "Great Lakes Bank", logo: null },
-    { name: "Michigan Tech Solutions", logo: null },
-  ],
-  gold: [
-    { name: "Muskegon Community College", logo: null },
-    { name: "West Michigan Manufacturing", logo: null },
-    { name: "Lake Shore Development", logo: null },
-  ],
-  silver: [
-    { name: "GVSU College of Engineering", logo: null },
-    { name: "Muskegon County Economic Development", logo: null },
-    { name: "Innovation Partners LLC", logo: null },
-    { name: "TechStart Michigan", logo: null },
-  ],
-  bronze: [
-    { name: "Local First Muskegon", logo: null },
-    { name: "Downtown Muskegon Now", logo: null },
-    { name: "Muskegon Lakeshore Chamber", logo: null },
-    { name: "Community Foundation", logo: null },
-    { name: "Regional Business Journal", logo: null },
-  ],
+type SponsorWithLogo = SponsorType & {
+  logo?: {
+    url?: string;
+    alt?: string;
+  } | null;
 };
 
-export default function SponsorsPage() {
+interface GroupedSponsors {
+  platinum: SponsorWithLogo[];
+  gold: SponsorWithLogo[];
+  silver: SponsorWithLogo[];
+  bronze: SponsorWithLogo[];
+  partner: SponsorWithLogo[];
+}
+
+async function getSponsorsGroupedByTier(): Promise<GroupedSponsors> {
+  try {
+    const result = await getSponsors();
+    const sponsors = result.docs as SponsorWithLogo[];
+    
+    return {
+      platinum: sponsors.filter((s) => s.tier === "platinum"),
+      gold: sponsors.filter((s) => s.tier === "gold"),
+      silver: sponsors.filter((s) => s.tier === "silver"),
+      bronze: sponsors.filter((s) => s.tier === "bronze"),
+      partner: sponsors.filter((s) => s.tier === "partner"),
+    };
+  } catch (error) {
+    console.error("Failed to fetch sponsors:", error);
+    return {
+      platinum: [],
+      gold: [],
+      silver: [],
+      bronze: [],
+      partner: [],
+    };
+  }
+}
+
+export default async function SponsorsPage() {
+  const currentSponsors = await getSponsorsGroupedByTier();
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#001133] via-[#002266] to-[#001133]">
       {/* Hero Section */}
@@ -106,72 +124,108 @@ export default function SponsorsPage() {
           </h2>
           
           {/* Platinum Sponsors */}
-          <div className="mb-12">
-            <h3 className="text-xl font-semibold text-[#FFB703] text-center mb-6">
-              Platinum Sponsors
-            </h3>
-            <div className="flex justify-center items-center gap-8 flex-wrap">
-              {currentSponsors.platinum.map((sponsor, index) => (
-                <div
-                  key={index}
-                  className="w-64 h-32 bg-white/10 rounded-xl flex items-center justify-center border border-[#FFB703]/30 hover:border-[#FFB703] transition-colors"
-                >
-                  <span className="text-white/60 font-medium">{sponsor.name}</span>
-                </div>
-              ))}
+          {currentSponsors.platinum.length > 0 && (
+            <div className="mb-12">
+              <h3 className="text-xl font-semibold text-[#FFB703] text-center mb-6">
+                Platinum Sponsors
+              </h3>
+              <div className="flex justify-center items-center gap-8 flex-wrap">
+                {currentSponsors.platinum.map((sponsor) => (
+                  <SponsorCard
+                    key={sponsor.id}
+                    sponsor={sponsor}
+                    size="large"
+                    borderColor="#FFB703"
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
           
           {/* Gold Sponsors */}
-          <div className="mb-12">
-            <h3 className="text-xl font-semibold text-[#3DD1CC] text-center mb-6">
-              Gold Sponsors
-            </h3>
-            <div className="flex justify-center items-center gap-6 flex-wrap">
-              {currentSponsors.gold.map((sponsor, index) => (
-                <div
-                  key={index}
-                  className="w-48 h-24 bg-white/10 rounded-lg flex items-center justify-center border border-[#3DD1CC]/30 hover:border-[#3DD1CC] transition-colors"
-                >
-                  <span className="text-white/60 text-sm font-medium">{sponsor.name}</span>
-                </div>
-              ))}
+          {currentSponsors.gold.length > 0 && (
+            <div className="mb-12">
+              <h3 className="text-xl font-semibold text-[#3DD1CC] text-center mb-6">
+                Gold Sponsors
+              </h3>
+              <div className="flex justify-center items-center gap-6 flex-wrap">
+                {currentSponsors.gold.map((sponsor) => (
+                  <SponsorCard
+                    key={sponsor.id}
+                    sponsor={sponsor}
+                    size="medium"
+                    borderColor="#3DD1CC"
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
           
           {/* Silver Sponsors */}
-          <div className="mb-12">
-            <h3 className="text-xl font-semibold text-[#0048E5] text-center mb-6">
-              Silver Sponsors
-            </h3>
-            <div className="flex justify-center items-center gap-4 flex-wrap">
-              {currentSponsors.silver.map((sponsor, index) => (
-                <div
-                  key={index}
-                  className="w-40 h-20 bg-white/10 rounded-lg flex items-center justify-center border border-[#0048E5]/30 hover:border-[#0048E5] transition-colors"
-                >
-                  <span className="text-white/60 text-xs font-medium text-center px-2">{sponsor.name}</span>
-                </div>
-              ))}
+          {currentSponsors.silver.length > 0 && (
+            <div className="mb-12">
+              <h3 className="text-xl font-semibold text-[#0048E5] text-center mb-6">
+                Silver Sponsors
+              </h3>
+              <div className="flex justify-center items-center gap-4 flex-wrap">
+                {currentSponsors.silver.map((sponsor) => (
+                  <SponsorCard
+                    key={sponsor.id}
+                    sponsor={sponsor}
+                    size="small"
+                    borderColor="#0048E5"
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
           
           {/* Bronze Sponsors */}
-          <div className="mb-12">
-            <h3 className="text-xl font-semibold text-white/80 text-center mb-6">
-              Bronze Sponsors
-            </h3>
-            <div className="flex justify-center items-center gap-3 flex-wrap">
-              {currentSponsors.bronze.map((sponsor, index) => (
-                <div
-                  key={index}
-                  className="px-4 py-2 bg-white/5 rounded-lg border border-white/10 hover:border-white/30 transition-colors"
-                >
-                  <span className="text-white/60 text-sm">{sponsor.name}</span>
-                </div>
-              ))}
+          {currentSponsors.bronze.length > 0 && (
+            <div className="mb-12">
+              <h3 className="text-xl font-semibold text-white/80 text-center mb-6">
+                Bronze Sponsors
+              </h3>
+              <div className="flex justify-center items-center gap-3 flex-wrap">
+                {currentSponsors.bronze.map((sponsor) => (
+                  <SponsorCard
+                    key={sponsor.id}
+                    sponsor={sponsor}
+                    size="xsmall"
+                    borderColor="white/30"
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Partner Sponsors */}
+          {currentSponsors.partner.length > 0 && (
+            <div className="mb-12">
+              <h3 className="text-xl font-semibold text-[#3DD1CC] text-center mb-6">
+                Partners
+              </h3>
+              <div className="flex justify-center items-center gap-4 flex-wrap">
+                {currentSponsors.partner.map((sponsor) => (
+                  <SponsorCard
+                    key={sponsor.id}
+                    sponsor={sponsor}
+                    size="small"
+                    borderColor="#3DD1CC"
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* No sponsors message */}
+          {Object.values(currentSponsors).every(arr => arr.length === 0) && (
+            <div className="text-center py-12">
+              <p className="text-white/60 text-lg">
+                Sponsor announcements coming soon. Check back later!
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -258,6 +312,67 @@ export default function SponsorsPage() {
           </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+// Sponsor Card Component
+function SponsorCard({ 
+  sponsor, 
+  size, 
+  borderColor 
+}: { 
+  sponsor: SponsorWithLogo; 
+  size: "large" | "medium" | "small" | "xsmall";
+  borderColor: string;
+}) {
+  const sizeClasses = {
+    large: "w-64 h-32",
+    medium: "w-48 h-24",
+    small: "w-40 h-20",
+    xsmall: "px-4 py-2",
+  };
+
+  const textClasses = {
+    large: "text-white/60 font-medium",
+    medium: "text-white/60 text-sm font-medium",
+    small: "text-white/60 text-xs font-medium text-center px-2",
+    xsmall: "text-white/60 text-sm",
+  };
+
+  const logoSizeClasses = {
+    large: "max-w-48 max-h-20",
+    medium: "max-w-36 max-h-16",
+    small: "max-w-28 max-h-12",
+    xsmall: "max-w-20 max-h-8",
+  };
+
+  const content = sponsor.logo?.url ? (
+    <img 
+      src={sponsor.logo.url} 
+      alt={sponsor.logo?.alt || sponsor.name} 
+      className={`${logoSizeClasses[size]} object-contain`}
+    />
+  ) : (
+    <span className={textClasses[size]}>{sponsor.name}</span>
+  );
+
+  if (size === "xsmall") {
+    return (
+      <div
+        className={`${sizeClasses[size]} bg-white/5 rounded-lg border border-white/10 hover:border-white/30 transition-colors flex items-center justify-center`}
+      >
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={`${sizeClasses[size]} bg-white/10 rounded-lg flex items-center justify-center border border-[${borderColor}]/30 hover:border-[${borderColor}] transition-colors`}
+      style={{ borderColor: `${borderColor}30` }}
+    >
+      {content}
     </div>
   );
 }

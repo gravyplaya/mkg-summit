@@ -2,52 +2,64 @@ import Link from "next/link";
 
 const schedule = [
   {
-    time: "12:30 PM",
-    title: "Registration & Networking",
-    description: "Check in, grab your materials, and connect with fellow attendees",
+    time: "12:00 PM",
+    title: "Doors Open & Registration",
+    description: "Networking, visiting exhibitors, grab food & beverage",
     icon: "registration",
   },
   {
     time: "1:00 PM",
-    title: "Opening Keynote",
-    description: "Dr. Sarah Chen - The Future of AI in Manufacturing",
+    title: "Welcome",
+    description: "Hub and sponsors welcome, emcee guidance",
     icon: "keynote",
   },
   {
-    time: "2:00 PM",
-    title: "Panel Sessions",
-    description: "Choose from Entrepreneurship, Tech Leadership, or Innovation panels",
-    icon: "panel",
+    time: "1:30 PM",
+    title: "National Keynote Speaker",
+    description: "National-level innovator sharing insights",
+    icon: "keynote",
   },
   {
-    time: "3:00 PM",
-    title: "Workshops",
-    description: "Hands-on sessions on Funding, Innovation, and Sustainability",
+    time: "2:30 PM",
+    title: "Break",
+    description: "Networking, visit exhibitors, move to breakout rooms",
+    icon: "networking",
+  },
+  {
+    time: "2:45 PM",
+    title: "Session 1",
+    description: "Breakout sessions (3 track options)",
     icon: "workshop",
   },
   {
-    time: "4:00 PM",
-    title: "Startup Showcase",
-    description: "Meet local startups and see their innovations",
-    icon: "showcase",
+    time: "3:30 PM",
+    title: "Break",
+    description: "Networking, visit exhibitors, move to breakout rooms",
+    icon: "networking",
   },
   {
-    time: "4:30 PM",
-    title: "Pitch Competition",
-    description: "Watch local entrepreneurs compete for prizes",
-    icon: "competition",
+    time: "3:45 PM",
+    title: "Session 2",
+    description: "Breakout sessions (3 track options)",
+    icon: "workshop",
   },
   {
-    time: "5:00 PM",
-    title: "Closing Keynote",
-    description: "Angela Williams - Building Innovation Communities",
+    time: "4:45 PM",
+    title: "Closing Remarks",
+    description: "Main seminar wrap-up, thank yous, and next steps",
     icon: "keynote",
   },
   {
-    time: "5:30 PM",
-    title: "Networking Reception",
-    description: "Continue conversations and build lasting connections",
-    icon: "networking",
+    time: "5:00 PM",
+    title: "Micro Pitch Competition",
+    description: "Small founders/startups compete for prize money w/ Happy Hour",
+    icon: "competition",
+  },
+  {
+    time: "6:00 PM",
+    title: "Close",
+    description: "Event concludes",
+    icon: "registration",
   },
 ];
 
@@ -75,7 +87,7 @@ export default function AboutPage() {
           </h1>
           <div className="w-24 h-1 bg-[#FFB703] mx-auto rounded-full mb-6" />
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            The Innovators Summit is West Michigan's premier innovation and entrepreneurship event, 
+            The Innovators Summit is West Michigan's premier innovation and entrepreneurship event,
             bringing together the region's brightest minds for an afternoon of learning, networking, and inspiration.
           </p>
         </div>
@@ -90,33 +102,31 @@ export default function AboutPage() {
                 Our Mission
               </h2>
               <p className="text-white/70 mb-4 leading-relaxed">
-                The Innovators Summit exists to accelerate innovation and entrepreneurship in West Michigan 
-                by creating meaningful connections between entrepreneurs, business leaders, researchers, and students.
+                The Innovators Summit is a half-day regional event celebrating creativity, entrepreneurship, and innovation across the Muskegon Lakeshore and surrounding areas.
               </p>
               <p className="text-white/70 mb-6 leading-relaxed">
-                Founded in 2024 by the Muskegon Innovation Hub and Grand Valley State University, 
-                the Summit has quickly become a cornerstone event for the region's innovation ecosystem.
+                It brings together entrepreneurs, creators, business leaders, and community partners to be informed, inspired, and encouraged to be bold and innovative. This will be the who's who among leaders, innovators, movers, and shakers. Big and small all in one place!
               </p>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white/5 rounded-lg p-4 text-center">
-                  <div className="text-3xl font-bold text-[#FFB703]">500+</div>
-                  <div className="text-white/60 text-sm">Expected Attendees</div>
+                  <div className="text-3xl font-bold text-[#FFB703]">300+</div>
+                  <div className="text-white/60 text-sm">Entrepreneurs & Leaders</div>
                 </div>
                 <div className="bg-white/5 rounded-lg p-4 text-center">
-                  <div className="text-3xl font-bold text-[#3DD1CC]">20+</div>
-                  <div className="text-white/60 text-sm">Expert Speakers</div>
+                  <div className="text-3xl font-bold text-[#3DD1CC]">1/2</div>
+                  <div className="text-white/60 text-sm">Day Event</div>
                 </div>
                 <div className="bg-white/5 rounded-lg p-4 text-center">
-                  <div className="text-3xl font-bold text-[#0048E5]">10</div>
-                  <div className="text-white/60 text-sm">Workshops</div>
+                  <div className="text-3xl font-bold text-[#0048E5]">6</div>
+                  <div className="text-white/60 text-sm">Breakout Sessions</div>
                 </div>
                 <div className="bg-white/5 rounded-lg p-4 text-center">
-                  <div className="text-3xl font-bold text-white">50+</div>
-                  <div className="text-white/60 text-sm">Startups Showcased</div>
+                  <div className="text-3xl font-bold text-white">1</div>
+                  <div className="text-white/60 text-sm">Pitch Competition</div>
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
               <h3 className="text-xl font-semibold text-white mb-4">
                 What to Expect
@@ -124,24 +134,24 @@ export default function AboutPage() {
               <ul className="space-y-4">
                 {[
                   {
-                    title: "Inspiring Keynotes",
-                    desc: "Hear from industry leaders about the future of innovation in Michigan",
+                    title: "Inspiring Keynote",
+                    desc: "National-level innovator sharing insight on creativity, resilience, and the future of innovation",
                   },
                   {
-                    title: "Hands-on Workshops",
-                    desc: "Learn practical skills from experts in funding, technology, and business",
+                    title: "Panel Discussions",
+                    desc: "Regional leaders discussing innovation in business, community, and technology",
                   },
                   {
-                    title: "Networking Opportunities",
-                    desc: "Connect with entrepreneurs, investors, and potential collaborators",
+                    title: "Breakout Sessions",
+                    desc: "Hands-on sessions exploring funding, design thinking, growth strategy, and collaboration",
                   },
                   {
-                    title: "Startup Showcase",
-                    desc: "Discover innovative local companies and their products",
+                    title: "Exhibitor Showcase",
+                    desc: "Local innovators, startups, and resource organizations, including Innovator's Alley",
                   },
                   {
-                    title: "Pitch Competition",
-                    desc: "Watch entrepreneurs compete for funding and support",
+                    title: "Interactive Experiences",
+                    desc: "Giveaway prizes, networking, DJ, creativity zones, and interactive installations",
                   },
                 ].map((item, index) => (
                   <li key={index} className="flex items-start">
@@ -174,11 +184,11 @@ export default function AboutPage() {
               April 21, 2026 - A full afternoon of innovation and inspiration
             </p>
           </div>
-          
+
           <div className="relative">
             {/* Timeline line */}
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#FFB703] via-[#3DD1CC] to-[#0048E5]" />
-            
+
             <div className="space-y-6">
               {schedule.map((item, index) => (
                 <div key={index} className="relative flex items-start pl-20">
@@ -186,7 +196,7 @@ export default function AboutPage() {
                   <div className="absolute left-6 w-5 h-5 rounded-full bg-[#001133] border-2 border-[#FFB703] flex items-center justify-center">
                     <div className="w-2 h-2 rounded-full bg-[#FFB703]" />
                   </div>
-                  
+
                   <div className="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 flex-1 hover:border-[#FFB703]/30 transition-colors">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
                       <h3 className="text-lg font-semibold text-white">
@@ -216,19 +226,19 @@ export default function AboutPage() {
             </h2>
             <div className="w-24 h-1 bg-[#FFB703] mx-auto rounded-full" />
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10">
-              {/* Venue Image Placeholder */}
-              <div className="h-64 bg-gradient-to-br from-[#0048E5]/30 to-[#3DD1CC]/30 flex items-center justify-center">
-                <div className="text-center">
-                  <svg className="w-16 h-16 text-white/40 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                  </svg>
-                  <span className="text-white/40">Venue Image</span>
-                </div>
+              {/* Venue Image */}
+              <div className="h-64 relative">
+                <img
+                  src="/images/conv-center.jpg"
+                  alt="Muskegon Convention Center"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#001133]/60 to-transparent" />
               </div>
-              
+
               <div className="p-6">
                 <h3 className="text-xl font-semibold text-white mb-2">
                   {venueInfo.name}
@@ -241,7 +251,7 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            
+
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
               <h3 className="text-xl font-semibold text-white mb-4">
                 Venue Amenities
@@ -256,7 +266,7 @@ export default function AboutPage() {
                   </li>
                 ))}
               </ul>
-              
+
               <div className="mt-6 pt-6 border-t border-white/10">
                 <h4 className="text-white font-medium mb-3">Getting There</h4>
                 <div className="space-y-2 text-sm text-white/60">
@@ -265,7 +275,7 @@ export default function AboutPage() {
                   <p>• Free parking available on-site</p>
                 </div>
               </div>
-              
+
               <Link
                 href="https://maps.google.com"
                 target="_blank"
@@ -290,7 +300,7 @@ export default function AboutPage() {
             Presented By
           </h2>
           <div className="w-24 h-1 bg-[#FFB703] mx-auto rounded-full mb-12" />
-          
+
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
               <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-[#0048E5] to-[#3DD1CC] flex items-center justify-center">
@@ -303,7 +313,7 @@ export default function AboutPage() {
                 Driving economic development through innovation and entrepreneurship in the Muskegon region.
               </p>
             </div>
-            
+
             <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
               <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-[#3DD1CC] to-[#FFB703] flex items-center justify-center">
                 <span className="text-2xl font-bold text-white">GVSU</span>
