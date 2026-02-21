@@ -29,7 +29,7 @@ const volunteerInterests = [
 
 export default function ContactPage() {
   const [activeTab, setActiveTab] = useState<'contact' | 'volunteer'>('contact');
-  
+
   // Contact form state
   const [contactForm, setContactForm] = useState<ContactForm>({
     name: '',
@@ -38,7 +38,7 @@ export default function ContactPage() {
     message: '',
   });
   const [contactStatus, setContactStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  
+
   // Volunteer form state
   const [volunteerForm, setVolunteerForm] = useState<VolunteerForm>({
     name: '',
@@ -53,38 +53,62 @@ export default function ContactPage() {
   const handleContactSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setContactStatus('loading');
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // In production, this would send to your backend
-    console.log('Contact form:', contactForm);
-    setContactStatus('success');
-    setContactForm({ name: '', email: '', subject: '', message: '' });
-    
-    setTimeout(() => setContactStatus('idle'), 5000);
+
+    try {
+      const response = await fetch('/api/contact-submissions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(contactForm),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit contact form');
+      }
+
+      setContactStatus('success');
+      setContactForm({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      console.error('Contact form error:', error);
+      setContactStatus('error');
+    } finally {
+      setTimeout(() => setContactStatus('idle'), 5000);
+    }
   };
 
   const handleVolunteerSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setVolunteerStatus('loading');
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // In production, this would send to your backend
-    console.log('Volunteer form:', volunteerForm);
-    setVolunteerStatus('success');
-    setVolunteerForm({
-      name: '',
-      email: '',
-      phone: '',
-      interests: [],
-      availability: '',
-      experience: '',
-    });
-    
-    setTimeout(() => setVolunteerStatus('idle'), 5000);
+
+    try {
+      const response = await fetch('/api/volunteer-submissions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(volunteerForm),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit volunteer form');
+      }
+
+      setVolunteerStatus('success');
+      setVolunteerForm({
+        name: '',
+        email: '',
+        phone: '',
+        interests: [],
+        availability: '',
+        experience: '',
+      });
+    } catch (error) {
+      console.error('Volunteer form error:', error);
+      setVolunteerStatus('error');
+    } finally {
+      setTimeout(() => setVolunteerStatus('idle'), 5000);
+    }
   };
 
   const handleInterestToggle = (interestId: string) => {
@@ -106,7 +130,7 @@ export default function ContactPage() {
           </h1>
           <div className="w-24 h-1 bg-[#FFB703] mx-auto rounded-full mb-6" />
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Have questions about the Innovators Summit? Want to get involved? 
+            Have questions about the Innovators Summit? Want to get involved?
             We'd love to hear from you.
           </p>
         </div>
@@ -119,21 +143,19 @@ export default function ContactPage() {
             <div className="bg-white/5 rounded-lg p-1 inline-flex">
               <button
                 onClick={() => setActiveTab('contact')}
-                className={`px-6 py-3 rounded-lg font-medium transition-all ${
-                  activeTab === 'contact'
+                className={`px-6 py-3 rounded-lg font-medium transition-all ${activeTab === 'contact'
                     ? 'bg-[#0048E5] text-white'
                     : 'text-white/60 hover:text-white'
-                }`}
+                  }`}
               >
                 Contact Us
               </button>
               <button
                 onClick={() => setActiveTab('volunteer')}
-                className={`px-6 py-3 rounded-lg font-medium transition-all ${
-                  activeTab === 'volunteer'
+                className={`px-6 py-3 rounded-lg font-medium transition-all ${activeTab === 'volunteer'
                     ? 'bg-[#0048E5] text-white'
                     : 'text-white/60 hover:text-white'
-                }`}
+                  }`}
               >
                 Volunteer
               </button>
@@ -146,7 +168,7 @@ export default function ContactPage() {
               <h2 className="text-2xl font-bold text-white mb-6">
                 Send Us a Message
               </h2>
-              
+
               <form onSubmit={handleContactSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
@@ -178,7 +200,7 @@ export default function ContactPage() {
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <label htmlFor="subject" className="block text-white/80 text-sm font-medium mb-2">
                     Subject
@@ -198,7 +220,7 @@ export default function ContactPage() {
                     <option value="other" className="bg-[#001133]">Other</option>
                   </select>
                 </div>
-                
+
                 <div>
                   <label htmlFor="message" className="block text-white/80 text-sm font-medium mb-2">
                     Message
@@ -213,7 +235,7 @@ export default function ContactPage() {
                     placeholder="How can we help you?"
                   />
                 </div>
-                
+
                 <button
                   type="submit"
                   disabled={contactStatus === 'loading'}
@@ -228,10 +250,16 @@ export default function ContactPage() {
                     'Send Message'
                   )}
                 </button>
-                
+
                 {contactStatus === 'success' && (
                   <p className="text-[#3DD1CC] text-center">
                     Thank you for your message! We'll get back to you soon.
+                  </p>
+                )}
+
+                {contactStatus === 'error' && (
+                  <p className="text-red-500 text-center">
+                    There was an error sending your message. Please try again.
                   </p>
                 )}
               </form>
@@ -245,10 +273,10 @@ export default function ContactPage() {
                 Volunteer at the Summit
               </h2>
               <p className="text-white/60 mb-6">
-                Join our team of volunteers and help make the Innovators Summit a success. 
+                Join our team of volunteers and help make the Innovators Summit a success.
                 Volunteers receive free admission, exclusive swag, and networking opportunities.
               </p>
-              
+
               <form onSubmit={handleVolunteerSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
@@ -280,7 +308,7 @@ export default function ContactPage() {
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <label htmlFor="vol-phone" className="block text-white/80 text-sm font-medium mb-2">
                     Phone Number
@@ -295,7 +323,7 @@ export default function ContactPage() {
                     placeholder="(231) 555-1234"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-white/80 text-sm font-medium mb-3">
                     Areas of Interest
@@ -304,11 +332,10 @@ export default function ContactPage() {
                     {volunteerInterests.map((interest) => (
                       <label
                         key={interest.id}
-                        className={`flex items-center p-3 rounded-lg border cursor-pointer transition-all ${
-                          volunteerForm.interests.includes(interest.id)
+                        className={`flex items-center p-3 rounded-lg border cursor-pointer transition-all ${volunteerForm.interests.includes(interest.id)
                             ? 'bg-[#0048E5]/20 border-[#0048E5]'
                             : 'bg-white/5 border-white/10 hover:border-white/30'
-                        }`}
+                          }`}
                       >
                         <input
                           type="checkbox"
@@ -321,7 +348,7 @@ export default function ContactPage() {
                     ))}
                   </div>
                 </div>
-                
+
                 <div>
                   <label htmlFor="availability" className="block text-white/80 text-sm font-medium mb-2">
                     Availability
@@ -340,7 +367,7 @@ export default function ContactPage() {
                     <option value="allday" className="bg-[#001133]">All Day</option>
                   </select>
                 </div>
-                
+
                 <div>
                   <label htmlFor="experience" className="block text-white/80 text-sm font-medium mb-2">
                     Relevant Experience (Optional)
@@ -354,7 +381,7 @@ export default function ContactPage() {
                     placeholder="Tell us about any relevant volunteer or professional experience..."
                   />
                 </div>
-                
+
                 <button
                   type="submit"
                   disabled={volunteerStatus === 'loading'}
@@ -369,10 +396,16 @@ export default function ContactPage() {
                     'Apply to Volunteer'
                   )}
                 </button>
-                
+
                 {volunteerStatus === 'success' && (
                   <p className="text-[#3DD1CC] text-center">
                     Thank you for your interest! We'll be in touch soon with more details.
+                  </p>
+                )}
+
+                {volunteerStatus === 'error' && (
+                  <p className="text-red-500 text-center">
+                    There was an error submitting your application. Please try again.
                   </p>
                 )}
               </form>
@@ -396,7 +429,7 @@ export default function ContactPage() {
                 info@innovatorssummit.org
               </a>
             </div>
-            
+
             <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 text-center">
               <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#3DD1CC]/20 flex items-center justify-center">
                 <svg className="w-6 h-6 text-[#3DD1CC]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -408,7 +441,7 @@ export default function ContactPage() {
                 (231) 555-1234
               </a>
             </div>
-            
+
             <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 text-center">
               <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#0048E5]/20 flex items-center justify-center">
                 <svg className="w-6 h-6 text-[#0048E5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">

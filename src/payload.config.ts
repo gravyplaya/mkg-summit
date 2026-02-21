@@ -9,6 +9,8 @@ import { Speakers } from './collections/Speakers'
 import { Sponsors } from './collections/Sponsors'
 import { Sessions } from './collections/Sessions'
 import { Users } from './collections/Users'
+import { ContactSubmissions } from './collections/ContactSubmissions'
+import { VolunteerSubmissions } from './collections/VolunteerSubmissions'
 
 // Globals
 import { EventSettings } from './globals/EventSettings'
@@ -31,6 +33,8 @@ export default buildConfig({
     Sponsors,
     Sessions,
     Users,
+    ContactSubmissions,
+    VolunteerSubmissions,
   ],
 
   globals: [
