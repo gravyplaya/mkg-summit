@@ -47,11 +47,13 @@ export default function Footer() {
                 </Link>
               </li>
               */}
+              {/* 
               <li>
                 <Link href="/about" className="text-white/60 hover:text-[#3DD1CC] transition-colors text-sm">
                   About the Summit
                 </Link>
               </li>
+              */}
               <li>
                 <Link href="/contact" className="text-white/60 hover:text-[#3DD1CC] transition-colors text-sm">
                   Contact & Volunteer

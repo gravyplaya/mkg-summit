@@ -8,7 +8,7 @@ const navLinks = [
   { href: '/', label: 'Home' },
   // { href: '/speakers', label: 'Speakers' },
   // { href: '/sponsors', label: 'Sponsors' },
-  { href: '/about', label: 'About the Summit' },
+  // { href: '/about', label: 'About the Summit' },
   { href: '/contact', label: 'Contact/Volunteer' },
 ];
 
@@ -44,8 +44,8 @@ export default function Navigation() {
                 key={link.href}
                 href={link.href}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${pathname === link.href
-                    ? 'bg-[#0048E5] text-white'
-                    : 'text-white/80 hover:text-white hover:bg-white/10'
+                  ? 'bg-[#FFB703] text-[#001133]'
+                  : 'text-white/80 hover:text-white hover:bg-white/10'
                   }`}
               >
                 {link.label}
@@ -94,8 +94,8 @@ export default function Navigation() {
                   href={link.href}
                   onClick={() => setIsMenuOpen(false)}
                   className={`px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${pathname === link.href
-                      ? 'bg-[#0048E5] text-white'
-                      : 'text-white/80 hover:text-white hover:bg-white/10'
+                    ? 'bg-[#FFB703] text-[#001133]'
+                    : 'text-white/80 hover:text-white hover:bg-white/10'
                     }`}
                 >
                   {link.label}

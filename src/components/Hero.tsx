@@ -32,27 +32,27 @@ export default function Hero() {
       {/* Main Content */}
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
         {/* Logo and Date with Pinwheel background */}
-        <div className="relative mb-12 py-12 md:py-20 lg:py-24">
+        <div className="relative mb-20 py-24 md:py-40 lg:py-56">
           {/* Pinwheel Background Image */}
           <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none overflow-visible">
-            <div className="w-full max-w-4xl aspect-square relative flex items-center justify-center translate-y-[-10%] md:translate-y-[-15%]">
+            <div className="w-full max-w-[100rem] aspect-square relative flex items-center justify-center translate-y-[-10%] md:translate-y-[-15%]">
               <img
                 src="/images/pinwheel.png"
                 alt=""
-                className="w-[140%] md:w-[180%] max-w-none h-auto opacity-25 animate-spin-slow blur-[2px] md:blur-none"
+                className="w-[200%] md:w-[250%] max-w-none h-auto opacity-20 animate-spin-slow blur-[1px] md:blur-none"
               />
             </div>
           </div>
 
           {/* Logo */}
-          <div className="mb-10 flex justify-center relative z-10">
+          <div className="mb-20 flex justify-center relative z-10">
             <svg
-              width="180"
-              height="150"
+              width="1000"
+              height="260"
               viewBox="0 0 741 192"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="w-full max-w-lg h-auto drop-shadow-[0_0_20px_rgba(0,0,0,0.6)]"
+              className="w-[90vw] max-w-6xl md:max-w-[85rem] h-auto drop-shadow-[0_0_50px_rgba(0,0,0,0.8)] transition-transform duration-700 hover:scale-[1.02]"
             >
               <path d="M60 131.505V60.0005C78.1077 60.0005 92.7868 74.6797 92.7868 92.7873V131.505H60Z" fill="#0048E5" />
               <path d="M100.86 131.505V60.0005C119.059 60.0005 133.811 74.7534 133.811 92.9521V131.505H100.86Z" fill="#3DD1CC" />
@@ -63,54 +63,55 @@ export default function Hero() {
           </div>
 
           {/* Event Details */}
-          <div className="mb-8 relative z-10">
-            <div className="mb-4 space-y-2">
-              <p className="text-white text-4xl md:text-7xl font-black tracking-tight drop-shadow-2xl">
+          <div className="mb-12 relative z-10">
+            <div className="mb-6 space-y-4">
+              <p className="text-4xl md:text-8xl font-black tracking-tighter drop-shadow-2xl text-[#FFB703]">
                 April 21st, 2026
               </p>
-              <p className="text-[#FFB703] text-xl md:text-3xl font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase drop-shadow-lg">
+              <p className="text-[#3DD1CC] text-2xl md:text-4xl font-bold tracking-[0.15em] md:tracking-[0.25em] uppercase drop-shadow-lg">
                 World Innovation Day
               </p>
             </div>
-            <p className="text-white/90 text-lg md:text-2xl font-semibold mb-4 drop-shadow-md">
-              at 12:00 PM
-            </p>
-            <p className="text-white/80 text-base md:text-lg mt-2 font-medium">
-              Hosted by the Muskegon Innovation Hub
-            </p>
-            <p className="text-white/60 text-sm mt-1">
-              Muskegon Convention Center
-            </p>
+            {/* Refined Event Details */}
+            <div className="space-y-8 flex flex-col items-center">
+              <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-12">
+                {/* Time */}
+                <div className="flex items-center gap-3 text-white drop-shadow-lg">
+                  <svg className="w-8 h-8 text-[#FFB703]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="text-3xl md:text-4xl font-black tracking-tight">12:00 PM</span>
+                </div>
+
+                <div className="hidden md:block w-px h-10 bg-white/20" />
+
+                {/* Host */}
+                <div className="text-xl md:text-2xl font-semibold text-white/90 drop-shadow-md">
+                  Hosted by <span className="text-white font-black border-b-4 border-[#3DD1CC]">Muskegon Innovation Hub</span>
+                </div>
+              </div>
+
+              {/* Location Card - High Impact */}
+              <div className="relative group max-w-2xl md:max-w-4xl mx-auto w-full">
+                {/* Glowing background effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#0048E5] via-[#3DD1CC] to-[#0048E5] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 animate-pulse-glow" />
+
+                <div className="relative bg-[#001133]/60 backdrop-blur-xl border-4 border-[#FFB703] px-6 py-8 md:px-10 rounded-[2.5rem] shadow-2xl transform transition-transform group-hover:scale-[1.05]">
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center gap-2 mb-3">
+                      <svg className="w-6 h-6 text-[#FFB703]" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-[#3DD1CC] text-sm md:text-base font-black uppercase tracking-[0.3em]">Main Location</span>
+                    </div>
+                    <p className="text-white text-3xl md:text-6xl font-black tracking-tighter text-center uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                      Muskegon Convention Center
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-
-        {/* Tagline */}
-        <h2 className="text-2xl md:text-4xl font-bold text-white mb-8 max-w-3xl mx-auto leading-tight">
-          Where Innovation Meets Opportunity
-        </h2>
-
-        {/* Description */}
-        <p className="text-white/70 text-base md:text-lg mb-10 max-w-2xl mx-auto">
-          Join us for an inspiring afternoon of keynotes, networking, and hands-on workshops
-          with Michigan&apos;s brightest innovators and entrepreneurs.
-        </p>
-
-        {/* Registration CTA */}
-        <div className="mb-8 relative z-20">
-          <Link
-            href="https://www.gvsu.edu/mihub/module-events-view.htm?siteModuleId=AB55EC2F-97B9-3977-1FB8FF824B6BF2B2&eventId=CD785BA0-B5E4-B275-AF231E3EC8B750F2"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-[#001133] bg-[#FFB703] rounded-full hover:bg-white hover:text-[#001133] transition-all duration-300 transform hover:scale-105 shadow-[0_0_20px_rgba(255,183,3,0.4)] hover:shadow-[0_0_30px_rgba(255,255,255,0.6)]"
-          >
-            Register Now
-            <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </Link>
-          <p className="text-white/50 text-sm mt-4">
-            Space is limited. Secure your spot today.
-          </p>
         </div>
       </div>
 

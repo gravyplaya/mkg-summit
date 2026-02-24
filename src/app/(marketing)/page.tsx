@@ -59,76 +59,77 @@ export default async function Home() {
       {/* Hero Section */}
       <Hero />
 
-      {/* About Preview Section */}
-      <section id="about" className="py-20 px-4 bg-gradient-to-b from-[#001133] to-[#002266]">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              About the Summit
-            </h2>
-            <div className="w-24 h-1 bg-[#FFB703] mx-auto rounded-full" />
-          </div>
+      {/* Combined Tagline & About Section - Subdued Glaze Flow */}
+      <section id="about" className="py-24 px-8 md:px-16 lg:px-24 bg-white/5 backdrop-blur-2xl relative overflow-hidden border-t border-white/5">
+        {/* Atmosphere accents */}
+        <div className="absolute top-0 right-0 w-[50rem] h-[50rem] bg-[#0048E5]/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 opacity-20" />
+        <div className="absolute top-1/2 left-0 w-[40rem] h-[40rem] bg-[#3DD1CC]/10 rounded-full blur-[100px] -translate-y-1/2 -translate-x-1/2 opacity-20" />
 
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h3 className="text-2xl font-semibold text-white mb-4">
-                Connecting Michigan&apos;s Innovation Ecosystem
-              </h3>
-              <p className="text-white/70 mb-6 leading-relaxed">
-                The Innovators Summit is a half-day regional event celebrating creativity, entrepreneurship,
-                and innovation across the Muskegon Lakeshore and surrounding areas. It brings together
-                entrepreneurs, creators, business leaders, and community partners.
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid lg:grid-cols-[1fr_1.2fr] gap-16 lg:gap-32 items-start">
+
+            {/* Left Column: Vision & Main Registration */}
+            <div className="space-y-12">
+              <div className="space-y-6">
+                <h2 className="text-sm md:text-base font-black uppercase tracking-[0.4em] text-[#3DD1CC]">The Vision</h2>
+                <h3 className="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-none uppercase tracking-tighter">
+                  Where <br />Innovation <br />Meets <br /><span className="text-[#FFB703]">Opportunity</span>
+                </h3>
+              </div>
+
+              <div className="relative group inline-block">
+                {/* Glowing background for Registration */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-[#FFB703] via-[#3DD1CC] to-[#FFB703] rounded-full blur opacity-20 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 animate-pulse" />
+                <Link
+                  href="https://www.gvsu.edu/mihub/module-events-view.htm?siteModuleId=AB55EC2F-97B9-3977-1FB8FF824B6BF2B2&eventId=CD785BA0-B5E4-B275-AF231E3EC8B750F2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative flex items-center justify-center px-12 py-8 bg-[#FFB703] text-[#001133] text-3xl font-black rounded-full hover:bg-white transition-all transform hover:scale-105 uppercase tracking-wider shadow-2xl"
+                >
+                  Register Now
+                  <svg className="w-10 h-10 ml-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Link>
+              </div>
+              <p className="text-white/40 text-lg font-bold uppercase tracking-widest pl-4">
+                * Limited spots available
               </p>
-              <ul className="space-y-3 mb-8">
-                {[
-                  "Keynote presentations from industry leaders",
-                  "Hands-on innovation workshops",
-                  "Networking sessions with peers and mentors",
-                  "Startup showcase and pitch competition",
-                ].map((item, index) => (
-                  <li key={index} className="flex items-center text-white/80">
-                    <svg className="w-5 h-5 text-[#3DD1CC] mr-3" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href="/about"
-                className="inline-flex items-center px-6 py-3 bg-[#0048E5] text-white font-medium rounded-lg hover:bg-[#0035B5] transition-colors"
-              >
-                Learn More
-                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
 
-            <div className="relative">
-              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="text-center p-4">
-                    <div className="text-4xl font-bold text-[#FFB703] mb-2">500+</div>
-                    <div className="text-white/60 text-sm">Expected Attendees</div>
-                  </div>
-                  <div className="text-center p-4">
-                    <div className="text-4xl font-bold text-[#3DD1CC] mb-2">20+</div>
-                    <div className="text-white/60 text-sm">Expert Speakers</div>
-                  </div>
-                  <div className="text-center p-4">
-                    <div className="text-4xl font-bold text-[#0048E5] mb-2">10</div>
-                    <div className="text-white/60 text-sm">Workshops</div>
-                  </div>
-                  <div className="text-center p-4">
-                    <div className="text-4xl font-bold text-white mb-2">1</div>
-                    <div className="text-white/60 text-sm">Amazing Day</div>
-                  </div>
+              {/* stats Grid - Subdued Style */}
+              <div className="grid grid-cols-2 gap-4 lg:gap-6 p-8 bg-white/5 backdrop-blur-md border border-white/10 rounded-[2.5rem] shadow-xl">
+                <div className="text-center p-2">
+                  <div className="text-4xl md:text-5xl lg:text-6xl font-black text-[#FFB703] mb-1">500+</div>
+                  <div className="text-white/40 text-xs font-black uppercase tracking-[0.2em]">Attendees</div>
+                </div>
+                <div className="text-center p-2">
+                  <div className="text-4xl md:text-5xl lg:text-6xl font-black text-[#3DD1CC] mb-1">20+</div>
+                  <div className="text-white/40 text-xs font-black uppercase tracking-[0.2em]">Speakers</div>
+                </div>
+                <div className="text-center p-2">
+                  <div className="text-4xl md:text-5xl lg:text-6xl font-black text-[#0048E5] mb-1">10</div>
+                  <div className="text-white/40 text-xs font-black uppercase tracking-[0.2em]">Workshops</div>
+                </div>
+                <div className="text-center p-2">
+                  <div className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-1">1</div>
+                  <div className="text-white/40 text-xs font-black uppercase tracking-[0.2em]">Epic Day</div>
                 </div>
               </div>
-              {/* Decorative elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#FFB703]/20 rounded-full blur-xl" />
-              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-[#3DD1CC]/20 rounded-full blur-xl" />
+            </div>
+
+            {/* Right Column: About Details & Stats */}
+            <div className="space-y-16">
+              <div className="space-y-10 text-left">
+                <div className="space-y-4">
+                  <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight">About the Summit</h2>
+                  <div className="w-20 h-2 bg-[#FFB703] rounded-full" />
+                </div>
+                <p className="text-white/80 text-xl md:text-2xl font-medium leading-relaxed">
+                  The Innovators Summit is a half-day regional event celebrating creativity, entrepreneurship, and innovation across the Muskegon Lakeshore and surrounding areas.
+                  The summit will bring together 300+ entrepreneurs, creators, business leaders, and community partners to be informed, inspired, and encouraged to be bold and innovative.
+                  This will be the who’s who among leaders, innovators, movers, and shakers. Big and small all in one place!
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -309,6 +310,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-    </div>
+    </div >
   );
 }
