@@ -131,7 +131,7 @@ export default function ContactPage() {
           <div className="w-24 h-1 bg-[#FFB703] mx-auto rounded-full mb-6" />
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
             Have questions about the Innovators Summit? Want to get involved?
-            We'd love to hear from you.
+            We&apos;d love to hear from you.
           </p>
         </div>
       </section>
@@ -144,8 +144,8 @@ export default function ContactPage() {
               <button
                 onClick={() => setActiveTab('contact')}
                 className={`px-6 py-3 rounded-lg font-medium transition-all ${activeTab === 'contact'
-                    ? 'bg-[#0048E5] text-white'
-                    : 'text-white/60 hover:text-white'
+                  ? 'bg-[#0048E5] text-white'
+                  : 'text-white/60 hover:text-white'
                   }`}
               >
                 Contact Us
@@ -153,8 +153,8 @@ export default function ContactPage() {
               <button
                 onClick={() => setActiveTab('volunteer')}
                 className={`px-6 py-3 rounded-lg font-medium transition-all ${activeTab === 'volunteer'
-                    ? 'bg-[#0048E5] text-white'
-                    : 'text-white/60 hover:text-white'
+                  ? 'bg-[#0048E5] text-white'
+                  : 'text-white/60 hover:text-white'
                   }`}
               >
                 Volunteer
@@ -215,7 +215,6 @@ export default function ContactPage() {
                     <option value="" className="bg-[#001133]">Select a subject</option>
                     <option value="general" className="bg-[#001133]">General Inquiry</option>
                     <option value="sponsorship" className="bg-[#001133]">Sponsorship Opportunities</option>
-                    <option value="speaking" className="bg-[#001133]">Speaking Opportunities</option>
                     <option value="media" className="bg-[#001133]">Media & Press</option>
                     <option value="other" className="bg-[#001133]">Other</option>
                   </select>
@@ -253,7 +252,7 @@ export default function ContactPage() {
 
                 {contactStatus === 'success' && (
                   <p className="text-[#3DD1CC] text-center">
-                    Thank you for your message! We'll get back to you soon.
+                    Thank you for your message! We&apos;ll get back to you soon.
                   </p>
                 )}
 
@@ -333,8 +332,8 @@ export default function ContactPage() {
                       <label
                         key={interest.id}
                         className={`flex items-center p-3 rounded-lg border cursor-pointer transition-all ${volunteerForm.interests.includes(interest.id)
-                            ? 'bg-[#0048E5]/20 border-[#0048E5]'
-                            : 'bg-white/5 border-white/10 hover:border-white/30'
+                          ? 'bg-[#0048E5]/20 border-[#0048E5]'
+                          : 'bg-white/5 border-white/10 hover:border-white/30'
                           }`}
                       >
                         <input
@@ -399,7 +398,7 @@ export default function ContactPage() {
 
                 {volunteerStatus === 'success' && (
                   <p className="text-[#3DD1CC] text-center">
-                    Thank you for your interest! We'll be in touch soon with more details.
+                    Thank you for your interest! We&apos;ll be in touch soon with more details.
                   </p>
                 )}
 

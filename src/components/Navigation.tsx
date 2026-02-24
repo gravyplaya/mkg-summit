@@ -6,8 +6,8 @@ import { useState } from 'react';
 
 const navLinks = [
   { href: '/', label: 'Home' },
-  { href: '/speakers', label: 'Speakers' },
-  { href: '/sponsors', label: 'Sponsors' },
+  // { href: '/speakers', label: 'Speakers' },
+  // { href: '/sponsors', label: 'Sponsors' },
   { href: '/about', label: 'About the Summit' },
   { href: '/contact', label: 'Contact/Volunteer' },
 ];
@@ -22,17 +22,17 @@ export default function Navigation() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <svg 
-              width="40" 
-              height="32" 
-              viewBox="0 0 235 192" 
-              fill="none" 
+            <svg
+              width="40"
+              height="32"
+              viewBox="0 0 235 192"
+              fill="none"
               xmlns="http://www.w3.org/2000/svg"
               className="h-8 w-auto"
             >
-              <path d="M60 131.505V60.0005C78.1077 60.0005 92.7868 74.6797 92.7868 92.7873V131.505H60Z" fill="#0048E5"/>
-              <path d="M100.86 131.505V60.0005C119.059 60.0005 133.811 74.7534 133.811 92.9521V131.505H100.86Z" fill="#3DD1CC"/>
-              <path d="M141.885 131.505V60.0005C160.083 60.0005 174.836 74.7534 174.836 92.9521V131.505H141.885Z" fill="#FFB703"/>
+              <path d="M60 131.505V60.0005C78.1077 60.0005 92.7868 74.6797 92.7868 92.7873V131.505H60Z" fill="#0048E5" />
+              <path d="M100.86 131.505V60.0005C119.059 60.0005 133.811 74.7534 133.811 92.9521V131.505H100.86Z" fill="#3DD1CC" />
+              <path d="M141.885 131.505V60.0005C160.083 60.0005 174.836 74.7534 174.836 92.9521V131.505H141.885Z" fill="#FFB703" />
             </svg>
             <span className="text-white font-bold text-lg hidden sm:block">Innovators Summit</span>
           </Link>
@@ -43,11 +43,10 @@ export default function Navigation() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  pathname === link.href
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${pathname === link.href
                     ? 'bg-[#0048E5] text-white'
                     : 'text-white/80 hover:text-white hover:bg-white/10'
-                }`}
+                  }`}
               >
                 {link.label}
               </Link>
@@ -94,11 +93,10 @@ export default function Navigation() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    pathname === link.href
+                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${pathname === link.href
                       ? 'bg-[#0048E5] text-white'
                       : 'text-white/80 hover:text-white hover:bg-white/10'
-                  }`}
+                    }`}
                 >
                   {link.label}
                 </Link>

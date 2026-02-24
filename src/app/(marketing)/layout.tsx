@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Innovators Summit 2026 | Muskegon, Michigan",
-  description: "Join us for an inspiring afternoon of keynotes, networking, and hands-on workshops with Michigan's brightest innovators and entrepreneurs. April 21, 2026 at Muskegon Convention Center.",
+  description: "Join us for an inspiring afternoon of keynotes, networking, and hands-on workshops with Michigan's brightest innovators and entrepreneurs. April 21st, 2026 at Muskegon Convention Center.",
   keywords: ["Innovators Summit", "Muskegon", "Michigan", "Innovation", "Entrepreneurship", "Conference", "2026"],
   authors: [{ name: "Muskegon Innovation Hub" }],
   openGraph: {

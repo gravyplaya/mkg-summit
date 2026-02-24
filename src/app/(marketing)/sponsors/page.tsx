@@ -77,7 +77,7 @@ async function getSponsorsGroupedByTier(): Promise<GroupedSponsors> {
   try {
     const result = await getSponsors();
     const sponsors = result.docs as SponsorWithLogo[];
-    
+
     return {
       platinum: sponsors.filter((s) => s.tier === "platinum"),
       gold: sponsors.filter((s) => s.tier === "gold"),
@@ -110,8 +110,8 @@ export default async function SponsorsPage() {
           </h1>
           <div className="w-24 h-1 bg-[#FFB703] mx-auto rounded-full mb-6" />
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            The Innovators Summit is made possible through the generous support of our sponsors. 
-            Thank you for investing in Michigan's innovation future.
+            The Innovators Summit is made possible through the generous support of our sponsors.
+            Thank you for investing in Michigan&apos;s innovation future.
           </p>
         </div>
       </section>
@@ -122,7 +122,7 @@ export default async function SponsorsPage() {
           <h2 className="text-2xl font-bold text-white text-center mb-12">
             2026 Sponsors
           </h2>
-          
+
           {/* Platinum Sponsors */}
           {currentSponsors.platinum.length > 0 && (
             <div className="mb-12">
@@ -141,7 +141,7 @@ export default async function SponsorsPage() {
               </div>
             </div>
           )}
-          
+
           {/* Gold Sponsors */}
           {currentSponsors.gold.length > 0 && (
             <div className="mb-12">
@@ -160,7 +160,7 @@ export default async function SponsorsPage() {
               </div>
             </div>
           )}
-          
+
           {/* Silver Sponsors */}
           {currentSponsors.silver.length > 0 && (
             <div className="mb-12">
@@ -179,7 +179,7 @@ export default async function SponsorsPage() {
               </div>
             </div>
           )}
-          
+
           {/* Bronze Sponsors */}
           {currentSponsors.bronze.length > 0 && (
             <div className="mb-12">
@@ -238,11 +238,11 @@ export default async function SponsorsPage() {
             </h2>
             <div className="w-24 h-1 bg-[#3DD1CC] mx-auto rounded-full mb-6" />
             <p className="text-white/70 text-lg max-w-2xl mx-auto">
-              Partner with us to support innovation in West Michigan. 
+              Partner with us to support innovation in West Michigan.
               Your sponsorship helps create opportunities for entrepreneurs and innovators.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {sponsorshipTiers.map((tier, index) => (
               <div
@@ -250,11 +250,11 @@ export default async function SponsorsPage() {
                 className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 overflow-hidden hover:border-white/30 transition-all duration-300 group"
               >
                 {/* Tier Header */}
-                <div 
+                <div
                   className="p-6 text-center"
                   style={{ backgroundColor: `${tier.color}15` }}
                 >
-                  <h3 
+                  <h3
                     className="text-xl font-bold mb-2"
                     style={{ color: tier.color }}
                   >
@@ -264,16 +264,16 @@ export default async function SponsorsPage() {
                     {tier.price}
                   </div>
                 </div>
-                
+
                 {/* Benefits List */}
                 <div className="p-6">
                   <ul className="space-y-3">
                     {tier.benefits.map((benefit, i) => (
                       <li key={i} className="flex items-start text-sm text-white/70">
-                        <svg 
-                          className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" 
+                        <svg
+                          className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0"
                           style={{ color: tier.color }}
-                          fill="currentColor" 
+                          fill="currentColor"
                           viewBox="0 0 20 20"
                         >
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -297,7 +297,7 @@ export default async function SponsorsPage() {
               Ready to Sponsor?
             </h2>
             <p className="text-white/70 mb-6 max-w-xl mx-auto">
-              Contact us to learn more about sponsorship opportunities and how your organization 
+              Contact us to learn more about sponsorship opportunities and how your organization
               can support innovation in West Michigan.
             </p>
             <Link
@@ -317,12 +317,12 @@ export default async function SponsorsPage() {
 }
 
 // Sponsor Card Component
-function SponsorCard({ 
-  sponsor, 
-  size, 
-  borderColor 
-}: { 
-  sponsor: SponsorWithLogo; 
+function SponsorCard({
+  sponsor,
+  size,
+  borderColor
+}: {
+  sponsor: SponsorWithLogo;
   size: "large" | "medium" | "small" | "xsmall";
   borderColor: string;
 }) {
@@ -348,9 +348,9 @@ function SponsorCard({
   };
 
   const content = sponsor.logo?.url ? (
-    <img 
-      src={sponsor.logo.url} 
-      alt={sponsor.logo?.alt || sponsor.name} 
+    <img
+      src={sponsor.logo.url}
+      alt={sponsor.logo?.alt || sponsor.name}
       className={`${logoSizeClasses[size]} object-contain`}
     />
   ) : (

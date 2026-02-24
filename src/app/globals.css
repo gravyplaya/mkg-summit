@@ -5,22 +5,22 @@
   --brand-blue: #0048E5;
   --brand-teal: #3DD1CC;
   --brand-yellow: #FFB703;
-  
+
   /* Extended Palette */
   --brand-blue-dark: #0035B5;
   --brand-blue-light: #3366FF;
   --brand-teal-dark: #2AA9A3;
   --brand-yellow-dark: #E5A503;
-  
+
   /* Background Gradients */
   --gradient-primary: linear-gradient(135deg, #001133 0%, #0048E5 50%, #001133 100%);
   --gradient-hero: linear-gradient(180deg, #001133 0%, #002266 100%);
-  
+
   /* Text Colors */
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.8);
   --text-muted: rgba(255, 255, 255, 0.6);
-  
+
   /* Background */
   --background: #001133;
   --foreground: #ffffff;
@@ -77,20 +77,36 @@ body {
 
 /* Animation Classes */
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-20px);
   }
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.3;
   }
+
   50% {
     opacity: 0.6;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -100,6 +116,10 @@ body {
 
 .animate-pulse-glow {
   animation: pulse-glow 4s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 30s linear infinite;
 }
 
 /* Smooth Scrolling */

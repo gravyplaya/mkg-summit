@@ -30,7 +30,6 @@ export const ContactSubmissions: CollectionConfig = {
             options: [
                 { label: 'General Inquiry', value: 'general' },
                 { label: 'Sponsorship Opportunities', value: 'sponsorship' },
-                { label: 'Speaking Opportunities', value: 'speaking' },
                 { label: 'Media & Press', value: 'media' },
                 { label: 'Other', value: 'other' },
             ],

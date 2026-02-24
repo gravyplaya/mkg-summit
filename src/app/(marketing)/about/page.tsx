@@ -87,8 +87,8 @@ export default function AboutPage() {
           </h1>
           <div className="w-24 h-1 bg-[#FFB703] mx-auto rounded-full mb-6" />
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            The Innovators Summit is West Michigan's premier innovation and entrepreneurship event,
-            bringing together the region's brightest minds for an afternoon of learning, networking, and inspiration.
+            The Innovators Summit is West Michigan&apos;s premier innovation and entrepreneurship event,
+            bringing together the region&apos;s brightest minds for an afternoon of learning, networking, and inspiration.
           </p>
         </div>
       </section>
@@ -105,7 +105,7 @@ export default function AboutPage() {
                 The Innovators Summit is a half-day regional event celebrating creativity, entrepreneurship, and innovation across the Muskegon Lakeshore and surrounding areas.
               </p>
               <p className="text-white/70 mb-6 leading-relaxed">
-                It brings together entrepreneurs, creators, business leaders, and community partners to be informed, inspired, and encouraged to be bold and innovative. This will be the who's who among leaders, innovators, movers, and shakers. Big and small all in one place!
+                It brings together entrepreneurs, creators, business leaders, and community partners to be informed, inspired, and encouraged to be bold and innovative. This will be the who&apos;s who among leaders, innovators, movers, and shakers. Big and small all in one place!
               </p>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white/5 rounded-lg p-4 text-center">
@@ -181,7 +181,7 @@ export default function AboutPage() {
             </h2>
             <div className="w-24 h-1 bg-[#3DD1CC] mx-auto rounded-full mb-6" />
             <p className="text-white/70">
-              April 21, 2026 - A full afternoon of innovation and inspiration
+              April 21st, 2026 - A full afternoon of innovation and inspiration
             </p>
           </div>
 
@@ -322,7 +322,7 @@ export default function AboutPage() {
                 Grand Valley State University
               </h3>
               <p className="text-white/60 text-sm">
-                Michigan's premier public university for innovation and applied learning.
+                Michigan&apos;s premier public university for innovation and applied learning.
               </p>
             </div>
           </div>

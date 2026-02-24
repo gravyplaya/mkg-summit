@@ -20,7 +20,7 @@ type SponsorWithLogo = SponsorType & {
 export default async function Home() {
   // Fetch featured speakers and sponsors from database
   let featuredSpeakers: SpeakerWithPhoto[] = [];
-  let sponsorsByTier: Record<string, SponsorWithLogo[]> = {
+  const sponsorsByTier: Record<string, SponsorWithLogo[]> = {
     platinum: [],
     gold: [],
     silver: [],
@@ -72,7 +72,7 @@ export default async function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h3 className="text-2xl font-semibold text-white mb-4">
-                Connecting Michigan's Innovation Ecosystem
+                Connecting Michigan&apos;s Innovation Ecosystem
               </h3>
               <p className="text-white/70 mb-6 leading-relaxed">
                 The Innovators Summit is a half-day regional event celebrating creativity, entrepreneurship,
@@ -134,7 +134,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Speakers Preview Section */}
+      {/* Speakers Preview Section - Commented out for now
       <section id="speakers" className="py-20 px-4 bg-[#002266]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
@@ -143,7 +143,7 @@ export default async function Home() {
             </h2>
             <div className="w-24 h-1 bg-[#3DD1CC] mx-auto rounded-full" />
             <p className="text-white/60 mt-4 max-w-2xl mx-auto">
-              Learn from industry leaders and innovators who are shaping the future of Michigan's economy.
+              Learn from industry leaders and innovators who are shaping the future of Michigan&apos;s economy.
             </p>
           </div>
 
@@ -154,7 +154,6 @@ export default async function Home() {
                   key={speaker.id}
                   className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-[#FFB703]/50 transition-all duration-300 group"
                 >
-                  {/* Speaker Avatar */}
                   {speaker.photo?.url ? (
                     <img
                       src={speaker.photo.url}
@@ -201,8 +200,9 @@ export default async function Home() {
           </div>
         </div>
       </section>
+      */}
 
-      {/* Sponsors Preview Section */}
+      {/* Sponsors Preview Section - Commented out for now
       <section id="sponsors" className="py-20 px-4 bg-gradient-to-b from-[#002266] to-[#001133]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
@@ -215,7 +215,6 @@ export default async function Home() {
             </p>
           </div>
 
-          {/* Check if there are any sponsors */}
           {Object.values(sponsorsByTier).some(arr => arr.length > 0) ? (
             <div className="space-y-8">
               {sponsorTiers.map((tier) => {
@@ -271,6 +270,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
+      */}
 
       {/* CTA Section */}
       <section className="py-20 px-4 bg-[#001133] relative overflow-hidden">
@@ -283,7 +283,7 @@ export default async function Home() {
             Ready to Innovate?
           </h2>
           <p className="text-white/70 text-lg mb-8 max-w-2xl mx-auto">
-            Join hundreds of innovators, entrepreneurs, and thought leaders at Michigan's premier innovation event.
+            Join hundreds of innovators, entrepreneurs, and thought leaders at Michigan&apos;s premier innovation event.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
