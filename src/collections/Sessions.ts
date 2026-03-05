@@ -1,7 +1,14 @@
 import type { CollectionConfig } from 'payload'
+import { isAdminOrEditor } from '../lib/access'
 
 export const Sessions: CollectionConfig = {
   slug: 'sessions',
+  access: {
+    read: () => true,
+    create: isAdminOrEditor,
+    update: isAdminOrEditor,
+    delete: isAdminOrEditor,
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'sessionType', 'startTime'],

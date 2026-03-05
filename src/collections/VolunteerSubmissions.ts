@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { isAdminOrEditor } from '../lib/access'
 
 export const VolunteerSubmissions: CollectionConfig = {
     slug: 'volunteer-submissions',
@@ -8,9 +9,9 @@ export const VolunteerSubmissions: CollectionConfig = {
     },
     access: {
         create: () => true, // Allow public submissions
-        read: ({ req: { user } }) => Boolean(user), // Only authenticated users can read
-        update: ({ req: { user } }) => Boolean(user), // Only authenticated users can update
-        delete: ({ req: { user } }) => Boolean(user), // Only authenticated users can delete
+        read: isAdminOrEditor,
+        update: isAdminOrEditor,
+        delete: isAdminOrEditor,
     },
     fields: [
         {

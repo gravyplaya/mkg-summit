@@ -1,7 +1,14 @@
 import type { CollectionConfig } from 'payload'
+import { isAdminOrEditor } from '../lib/access'
 
 export const Speakers: CollectionConfig = {
   slug: 'speakers',
+  access: {
+    read: () => true,
+    create: isAdminOrEditor,
+    update: isAdminOrEditor,
+    delete: isAdminOrEditor,
+  },
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'company', 'featured'],

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { isAdmin, isAdminField, isAdminOrSelf } from '../lib/access'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -9,6 +10,11 @@ export const Users: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'email',
+  },
+  access: {
+    read: isAdminOrSelf,
+    update: isAdminOrSelf,
+    delete: isAdmin,
   },
   fields: [
     {
@@ -21,10 +27,14 @@ export const Users: CollectionConfig = {
       type: 'select',
       required: true,
       defaultValue: 'editor',
+      saveToJWT: true,
       options: [
         { label: 'Admin', value: 'admin' },
         { label: 'Editor', value: 'editor' },
       ],
+      access: {
+        update: isAdminField,
+      },
       admin: {
         position: 'sidebar',
       },
