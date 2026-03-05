@@ -54,7 +54,10 @@ export default buildConfig({
 
   cors: [
     'http://localhost:3000',
+    'https://muskegoninnovatorssummit.com',
   ],
 
-  serverURL: process.env.NEXT_PUBLIC_SERVER_URL,
+  serverURL: process.env.NODE_ENV === 'production'
+    ? 'https://muskegoninnovatorssummit.com'
+    : process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
 })
