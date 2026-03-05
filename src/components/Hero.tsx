@@ -1,6 +1,53 @@
 import Link from 'next/link';
+import type { EventSettings, Media } from '@/payload-types';
 
-export default function Hero() {
+interface HeroProps {
+  settings?: EventSettings & {
+    heroImage?: Media | null;
+  };
+}
+
+export default function Hero({ settings }: HeroProps) {
+  // Format long date: April 21st, 2026
+  // Using UTC methods to avoid timezone shifts when parsing YYYY-MM-DD
+  const formatDate = (dateString?: string | null) => {
+    if (!dateString) return 'Date TBD';
+
+    // If it's just a YYYY-MM-DD string, append T12:00:00 to avoid UTC midnight issues
+    // or just use UTC getter methods.
+    const date = new Date(dateString);
+
+    // Month names array
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    const day = date.getUTCDate();
+    const month = months[date.getUTCMonth()];
+    const year = date.getUTCFullYear();
+
+    const getOrdinal = (n: number) => {
+      if (n >= 11 && n <= 13) return `${n}th`;
+      switch (n % 10) {
+        case 1: return `${n}st`;
+        case 2: return `${n}nd`;
+        case 3: return `${n}rd`;
+        default: return `${n}th`;
+      }
+    };
+
+    return `${month} ${getOrdinal(day)}, ${year}`;
+  };
+
+  const eventName = settings?.eventName || 'MKG Summit';
+  const eventDate = settings?.eventDate ? formatDate(settings.eventDate as unknown as string) : 'April 21st, 2026';
+  const eventTime = (settings as any)?.eventTime || '12:00 PM';
+  const venueName = settings?.venue?.name || 'Muskegon Convention Center';
+  const heroImage = (settings?.heroImage && typeof settings.heroImage === 'object')
+    ? (settings.heroImage as any).url
+    : '/images/pinwheel.png';
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Gradient */}
@@ -37,9 +84,9 @@ export default function Hero() {
           <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none overflow-visible">
             <div className="w-full max-w-[100rem] aspect-square relative flex items-center justify-center translate-y-[-10%] md:translate-y-[-15%]">
               <img
-                src="/images/pinwheel.png"
+                src={heroImage}
                 alt=""
-                className="w-[200%] md:w-[250%] max-w-none h-auto opacity-20 animate-spin-slow blur-[1px] md:blur-none"
+                className={`max-w-none h-auto opacity-20 animate-spin-slow blur-[1px] md:blur-none ${heroImage === '/images/pinwheel.png' ? 'w-[200%] md:w-[250%]' : 'w-full object-contain'}`}
               />
             </div>
           </div>
@@ -66,10 +113,10 @@ export default function Hero() {
           <div className="mb-12 relative z-10">
             <div className="mb-6 space-y-4">
               <p className="text-4xl md:text-8xl font-black tracking-tighter drop-shadow-2xl text-[#FFB703]">
-                April 21st, 2026
+                {eventDate}
               </p>
               <p className="text-[#3DD1CC] text-2xl md:text-4xl font-bold tracking-[0.15em] md:tracking-[0.25em] uppercase drop-shadow-lg">
-                World Innovation Day
+                {eventName}
               </p>
             </div>
             {/* Refined Event Details */}
@@ -80,7 +127,7 @@ export default function Hero() {
                   <svg className="w-8 h-8 text-[#FFB703]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span className="text-3xl md:text-4xl font-black tracking-tight">12:00 PM</span>
+                  <span className="text-3xl md:text-4xl font-black tracking-tight">{eventTime}</span>
                 </div>
 
                 <div className="hidden md:block w-px h-10 bg-white/20" />
@@ -105,7 +152,7 @@ export default function Hero() {
                       <span className="text-[#3DD1CC] text-sm md:text-base font-black uppercase tracking-[0.3em]">Main Location</span>
                     </div>
                     <p className="text-white text-3xl md:text-6xl font-black tracking-tighter text-center uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                      Muskegon Convention Center
+                      {venueName}
                     </p>
                   </div>
                 </div>

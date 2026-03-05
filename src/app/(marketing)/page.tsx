@@ -1,7 +1,7 @@
 import Hero from "@/components/Hero";
 import Link from "next/link";
-import { getFeaturedSpeakers, getSponsors } from "@/lib/api";
-import type { Speakers as SpeakerType, Sponsors as SponsorType } from "@/payload-types";
+import { getFeaturedSpeakers, getSponsors, getEventSettings } from "@/lib/api";
+import type { Speakers as SpeakerType, Sponsors as SponsorType, EventSettings, Media } from "@/payload-types";
 
 type SpeakerWithPhoto = SpeakerType & {
   photo?: {
@@ -17,9 +17,13 @@ type SponsorWithLogo = SponsorType & {
   } | null;
 };
 
+export const revalidate = 0;
+
 export default async function Home() {
-  // Fetch featured speakers and sponsors from database
+  // Fetch featured speakers, sponsors, and event settings from database
   let featuredSpeakers: SpeakerWithPhoto[] = [];
+  let eventSettings: (EventSettings & { heroImage?: Media | null }) | null = null;
+
   const sponsorsByTier: Record<string, SponsorWithLogo[]> = {
     platinum: [],
     gold: [],
@@ -29,13 +33,15 @@ export default async function Home() {
   };
 
   try {
-    const [speakersResult, sponsorsResult] = await Promise.all([
+    const [speakersResult, sponsorsResult, settingsResult] = await Promise.all([
       getFeaturedSpeakers(),
       getSponsors(),
+      getEventSettings(),
     ]);
 
     featuredSpeakers = speakersResult.docs as SpeakerWithPhoto[];
     const allSponsors = sponsorsResult.docs as SponsorWithLogo[];
+    eventSettings = settingsResult as unknown as (EventSettings & { heroImage?: Media | null });
 
     // Group sponsors by tier
     allSponsors.forEach((sponsor) => {
@@ -54,10 +60,20 @@ export default async function Home() {
     { name: "Silver Sponsors", key: "silver" as const, color: "#0048E5" },
   ];
 
+  const registrationUrl = eventSettings?.registrationUrl || "https://www.gvsu.edu/mihub/module-events-view.htm?siteModuleId=AB55EC2F-97B9-3977-1FB8FF824B6BF2B2&eventId=CD785BA0-B5E4-B275-AF231E3EC8B750F2";
+  const eventName = eventSettings?.eventName || "Innovators Summit";
+  const aboutDescription = (eventSettings as any)?.aboutDescription || `The ${eventName} is a half-day regional event celebrating creativity, entrepreneurship, and innovation across the Muskegon Lakeshore and surrounding areas. The summit will bring together 300+ entrepreneurs, creators, business leaders, and community partners to be informed, inspired, and encouraged to be bold and innovative. This will be the who’s who among leaders, innovators, movers, and shakers. Big and small all in one place!`;
+  const stats = (eventSettings as any)?.stats || {
+    attendees: '500+',
+    speakers: '20+',
+    workshops: '10+',
+    days: '1'
+  };
+
   return (
     <div className="relative">
       {/* Hero Section */}
-      <Hero />
+      <Hero settings={eventSettings || undefined} />
 
       {/* Combined Tagline & About Section - Subdued Glaze Flow */}
       <section id="about" className="py-24 px-8 md:px-16 lg:px-24 bg-white/5 backdrop-blur-2xl relative overflow-hidden border-t border-white/5">
@@ -81,7 +97,7 @@ export default async function Home() {
                 {/* Glowing background for Registration */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-[#FFB703] via-[#3DD1CC] to-[#FFB703] rounded-full blur opacity-20 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 animate-pulse" />
                 <Link
-                  href="https://www.gvsu.edu/mihub/module-events-view.htm?siteModuleId=AB55EC2F-97B9-3977-1FB8FF824B6BF2B2&eventId=CD785BA0-B5E4-B275-AF231E3EC8B750F2"
+                  href={registrationUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="relative flex items-center justify-center px-12 py-8 bg-[#FFB703] text-[#001133] text-3xl font-black rounded-full hover:bg-white transition-all transform hover:scale-105 uppercase tracking-wider shadow-2xl"
@@ -99,20 +115,20 @@ export default async function Home() {
               {/* stats Grid - Subdued Style */}
               <div className="grid grid-cols-2 gap-4 lg:gap-6 p-8 bg-white/5 backdrop-blur-md border border-white/10 rounded-[2.5rem] shadow-xl">
                 <div className="text-center p-2">
-                  <div className="text-4xl md:text-5xl lg:text-6xl font-black text-[#FFB703] mb-1">500+</div>
+                  <div className="text-4xl md:text-5xl lg:text-6xl font-black text-[#FFB703] mb-1">{stats.attendees}</div>
                   <div className="text-white/40 text-xs font-black uppercase tracking-[0.2em]">Attendees</div>
                 </div>
                 <div className="text-center p-2">
-                  <div className="text-4xl md:text-5xl lg:text-6xl font-black text-[#3DD1CC] mb-1">20+</div>
+                  <div className="text-4xl md:text-5xl lg:text-6xl font-black text-[#3DD1CC] mb-1">{stats.speakers}</div>
                   <div className="text-white/40 text-xs font-black uppercase tracking-[0.2em]">Speakers</div>
                 </div>
                 <div className="text-center p-2">
-                  <div className="text-4xl md:text-5xl lg:text-6xl font-black text-[#0048E5] mb-1">10</div>
+                  <div className="text-4xl md:text-5xl lg:text-6xl font-black text-[#0048E5] mb-1">{stats.workshops}</div>
                   <div className="text-white/40 text-xs font-black uppercase tracking-[0.2em]">Workshops</div>
                 </div>
                 <div className="text-center p-2">
-                  <div className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-1">1</div>
-                  <div className="text-white/40 text-xs font-black uppercase tracking-[0.2em]">Epic Day</div>
+                  <div className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-1">{stats.days}</div>
+                  <div className="text-white/40 text-xs font-black uppercase tracking-[0.2em]">Epic {stats.days === '1' ? 'Day' : 'Days'}</div>
                 </div>
               </div>
             </div>
@@ -121,13 +137,11 @@ export default async function Home() {
             <div className="space-y-16">
               <div className="space-y-10 text-left">
                 <div className="space-y-4">
-                  <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight">About the Summit</h2>
+                  <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight">About the {eventName}</h2>
                   <div className="w-20 h-2 bg-[#FFB703] rounded-full" />
                 </div>
-                <p className="text-white/80 text-xl md:text-2xl font-medium leading-relaxed">
-                  The Innovators Summit is a half-day regional event celebrating creativity, entrepreneurship, and innovation across the Muskegon Lakeshore and surrounding areas.
-                  The summit will bring together 300+ entrepreneurs, creators, business leaders, and community partners to be informed, inspired, and encouraged to be bold and innovative.
-                  This will be the who’s who among leaders, innovators, movers, and shakers. Big and small all in one place!
+                <p className="text-white/80 text-xl md:text-2xl font-medium leading-relaxed whitespace-pre-wrap">
+                  {aboutDescription}
                 </p>
               </div>
             </div>
@@ -135,47 +149,44 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Speakers Preview Section - Commented out for now
-      <section id="speakers" className="py-20 px-4 bg-[#002266]">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Featured Speakers
-            </h2>
-            <div className="w-24 h-1 bg-[#3DD1CC] mx-auto rounded-full" />
-            <p className="text-white/60 mt-4 max-w-2xl mx-auto">
-              Learn from industry leaders and innovators who are shaping the future of Michigan&apos;s economy.
-            </p>
+      {/* Speakers Preview Section */}
+      <section id="speakers" className="py-24 px-8 md:px-16 lg:px-24 bg-[#002266] relative overflow-hidden">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="text-sm md:text-base font-black uppercase tracking-[0.4em] text-[#3DD1CC]">The Lineup</h2>
+            <h3 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">Featured Speakers</h3>
+            <div className="w-24 h-1 bg-[#FFB703] mx-auto rounded-full" />
           </div>
 
           {featuredSpeakers.length > 0 ? (
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredSpeakers.map((speaker) => (
                 <div
                   key={speaker.id}
-                  className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-[#FFB703]/50 transition-all duration-300 group"
+                  className="bg-white/5 backdrop-blur-md rounded-[2.5rem] p-8 border border-white/10 hover:border-[#FFB703]/50 transition-all duration-300 group"
                 >
+                  {/* Speaker Avatar */}
                   {speaker.photo?.url ? (
                     <img
                       src={speaker.photo.url}
                       alt={speaker.photo?.alt || speaker.name}
-                      className="w-24 h-24 mx-auto mb-4 rounded-full object-cover"
+                      className="w-32 h-32 mx-auto mb-6 rounded-full object-cover border-4 border-[#3DD1CC]/20 group-hover:border-[#FFB703]/50 transition-colors"
                     />
                   ) : (
-                    <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-[#0048E5] to-[#3DD1CC] flex items-center justify-center">
-                      <span className="text-3xl font-bold text-white">
+                    <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#0048E5] to-[#3DD1CC] flex items-center justify-center">
+                      <span className="text-4xl font-black text-white">
                         {speaker.name.split(' ').map(n => n[0]).join('')}
                       </span>
                     </div>
                   )}
-                  <h3 className="text-xl font-semibold text-white text-center mb-1 group-hover:text-[#FFB703] transition-colors">
+                  <h3 className="text-2xl font-black text-white text-center mb-2 group-hover:text-[#FFB703] transition-colors uppercase tracking-tight">
                     {speaker.name}
                   </h3>
-                  <p className="text-white/60 text-sm text-center mb-3">
-                    {speaker.jobTitle}{speaker.company ? `, ${speaker.company}` : ''}
+                  <p className="text-[#3DD1CC] text-sm font-black text-center mb-4 uppercase tracking-widest">
+                    {speaker.jobTitle}{speaker.company ? ` | ${speaker.company}` : ''}
                   </p>
                   {speaker.shortBio && (
-                    <p className="text-[#3DD1CC] text-sm text-center italic">
+                    <p className="text-white/60 text-center italic leading-relaxed">
                       &ldquo;{speaker.shortBio}&rdquo;
                     </p>
                   )}
@@ -184,40 +195,35 @@ export default async function Home() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-white/60">Speaker announcements coming soon!</p>
+              <p className="text-white/40 font-bold uppercase tracking-widest">Speaker announcements coming soon!</p>
             </div>
           )}
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-16">
             <Link
               href="/speakers"
-              className="inline-flex items-center px-6 py-3 border-2 border-[#3DD1CC] text-[#3DD1CC] font-medium rounded-lg hover:bg-[#3DD1CC] hover:text-[#001133] transition-all"
+              className="inline-flex items-center px-8 py-4 border-2 border-[#3DD1CC] text-[#3DD1CC] font-black rounded-full hover:bg-[#3DD1CC] hover:text-[#001133] transition-all uppercase tracking-widest"
             >
               View All Speakers
-              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg className="w-5 h-5 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
               </svg>
             </Link>
           </div>
         </div>
       </section>
-      */}
 
-      {/* Sponsors Preview Section - Commented out for now
-      <section id="sponsors" className="py-20 px-4 bg-gradient-to-b from-[#002266] to-[#001133]">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Our Sponsors
-            </h2>
-            <div className="w-24 h-1 bg-[#FFB703] mx-auto rounded-full" />
-            <p className="text-white/60 mt-4 max-w-2xl mx-auto">
-              Thank you to our generous sponsors who make the Innovators Summit possible.
-            </p>
+      {/* Sponsors Preview Section */}
+      <section id="sponsors" className="py-24 px-8 md:px-16 lg:px-24 bg-gradient-to-b from-[#002266] to-[#001133]">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="text-sm md:text-base font-black uppercase tracking-[0.4em] text-[#FFB703]">Partnership</h2>
+            <h3 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">Our Sponsors</h3>
+            <div className="w-24 h-1 bg-[#3DD1CC] mx-auto rounded-full" />
           </div>
 
           {Object.values(sponsorsByTier).some(arr => arr.length > 0) ? (
-            <div className="space-y-8">
+            <div className="space-y-16">
               {sponsorTiers.map((tier) => {
                 const tierSponsors = sponsorsByTier[tier.key];
                 if (tierSponsors.length === 0) return null;
@@ -225,25 +231,25 @@ export default async function Home() {
                 return (
                   <div key={tier.key} className="text-center">
                     <h3
-                      className="text-lg font-semibold mb-4"
+                      className="text-xl font-black mb-8 uppercase tracking-[0.3em]"
                       style={{ color: tier.color }}
                     >
                       {tier.name}
                     </h3>
-                    <div className="flex justify-center items-center gap-8 flex-wrap">
+                    <div className="flex justify-center items-center gap-8 md:gap-12 flex-wrap">
                       {tierSponsors.map((sponsor) => (
                         <div
                           key={sponsor.id}
-                          className="w-40 h-20 bg-white/10 rounded-lg flex items-center justify-center border border-white/10 hover:border-white/30 transition-colors"
+                          className="w-48 h-24 bg-white/5 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/10 hover:border-white/30 transition-all group p-4"
                         >
                           {sponsor.logo?.url ? (
                             <img
                               src={sponsor.logo.url}
                               alt={sponsor.logo?.alt || sponsor.name}
-                              className="max-w-32 max-h-14 object-contain"
+                              className="max-w-full max-h-16 object-contain filter brightness-90 group-hover:brightness-100 transition-all"
                             />
                           ) : (
-                            <span className="text-white/60 text-sm font-medium">{sponsor.name}</span>
+                            <span className="text-white/60 text-sm font-black uppercase tracking-tight">{sponsor.name}</span>
                           )}
                         </div>
                       ))}
@@ -254,24 +260,23 @@ export default async function Home() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-white/60">Sponsor announcements coming soon!</p>
+              <p className="text-white/40 font-bold uppercase tracking-widest">Sponsor announcements coming soon!</p>
             </div>
           )}
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-16">
             <Link
               href="/sponsors"
-              className="inline-flex items-center px-6 py-3 bg-[#FFB703] text-[#001133] font-semibold rounded-lg hover:bg-[#E5A503] transition-colors"
+              className="inline-flex items-center px-10 py-5 bg-[#FFB703] text-[#001133] font-black rounded-full hover:bg-white transition-all uppercase tracking-widest shadow-xl"
             >
               Become a Sponsor
-              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg className="w-5 h-5 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
               </svg>
             </Link>
           </div>
         </div>
       </section>
-      */}
 
       {/* CTA Section */}
       <section className="py-20 px-4 bg-[#001133] relative overflow-hidden">
@@ -288,7 +293,7 @@ export default async function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
-              href="https://www.gvsu.edu/mihub/module-events-view.htm?siteModuleId=AB55EC2F-97B9-3977-1FB8FF824B6BF2B2&eventId=CD785BA0-B5E4-B275-AF231E3EC8B750F2"
+              href={registrationUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-4 bg-[#FFB703] text-[#001133] font-bold rounded-lg hover:bg-white transition-colors"

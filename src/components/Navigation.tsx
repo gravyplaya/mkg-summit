@@ -6,15 +6,20 @@ import { useState } from 'react';
 
 const navLinks = [
   { href: '/', label: 'Home' },
-  // { href: '/speakers', label: 'Speakers' },
-  // { href: '/sponsors', label: 'Sponsors' },
-  // { href: '/about', label: 'About the Summit' },
+  { href: '/speakers', label: 'Speakers' },
+  { href: '/sponsors', label: 'Sponsors' },
+  { href: '/about', label: 'About the Summit' },
   { href: '/contact', label: 'Contact/Volunteer' },
 ];
 
-export default function Navigation() {
+interface NavigationProps {
+  title?: string;
+}
+
+export default function Navigation({ title }: NavigationProps) {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const eventName = title || 'Innovators Summit';
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#001133]/90 backdrop-blur-md border-b border-white/10">
@@ -34,7 +39,7 @@ export default function Navigation() {
               <path d="M100.86 131.505V60.0005C119.059 60.0005 133.811 74.7534 133.811 92.9521V131.505H100.86Z" fill="#3DD1CC" />
               <path d="M141.885 131.505V60.0005C160.083 60.0005 174.836 74.7534 174.836 92.9521V131.505H141.885Z" fill="#FFB703" />
             </svg>
-            <span className="text-white font-bold text-lg hidden sm:block">Innovators Summit</span>
+            <span className="text-white font-bold text-lg hidden sm:block">{eventName}</span>
           </Link>
 
           {/* Desktop Navigation */}

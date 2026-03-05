@@ -77,13 +77,71 @@ const venueInfo = {
 };
 
 export default function AboutPage() {
-  // Page commented out - will be added back later
-  return null;
-  /*
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#001133] via-[#002266] to-[#001133]">
-      ...
+      {/* Hero Section */}
+      <section className="py-20 px-8 md:px-16 lg:px-24">
+        <div className="max-w-7xl mx-auto text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white uppercase tracking-tighter mb-6">
+            Schedule & <span className="text-[#FFA500]">Sessions</span>
+          </h1>
+          <p className="text-white/60 text-xl md:text-2xl font-medium max-w-3xl mx-auto">
+            Join us for a day of inspiration, learning, and connection at the Muskegon Innovation Hub.
+          </p>
+        </div>
+      </section>
+
+      {/* Schedule Section */}
+      <section className="py-12 px-8 md:px-16 lg:px-24">
+        <div className="max-w-4xl mx-auto">
+          <div className="space-y-4">
+            {schedule.map((item, index) => (
+              <div key={index} className="flex gap-6 md:gap-12 group">
+                <div className="w-24 md:w-32 pt-1">
+                  <span className="text-white/40 text-sm md:text-base font-black uppercase tracking-widest">{item.time}</span>
+                </div>
+                <div className="flex-1 pb-12 border-l border-white/10 pl-8 md:pl-12 relative">
+                  <div className="absolute top-2 -left-[5px] w-2 h-2 rounded-full bg-[#FF4500] group-hover:scale-150 transition-transform" />
+                  <h3 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight mb-2 group-hover:text-[#3DD1CC] transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-white/60 text-base md:text-lg">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Venue Section */}
+      <section className="py-24 px-8 md:px-16 lg:px-24 bg-white/5 backdrop-blur-md border-y border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-8">
+                The <span className="text-[#3DD1CC]">Venue</span>
+              </h2>
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold text-white">{venueInfo.name}</h3>
+                <p className="text-white/60 text-lg leading-relaxed">{venueInfo.description}</p>
+                <div className="space-y-3">
+                  {venueInfo.amenities.map((item, i) => (
+                    <div key={i} className="flex items-center gap-3 text-white/80">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#FFB703]" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="aspect-video bg-white/10 rounded-[2.5rem] overflow-hidden border border-white/10 flex items-center justify-center">
+              <span className="text-white/20 font-black uppercase tracking-widest">Venue Map / Photos</span>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
-  */
 }

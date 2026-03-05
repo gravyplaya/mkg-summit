@@ -1,0 +1,241 @@
+'use client';
+
+import { useState, FormEvent } from 'react';
+import type { EventSettings } from '@/payload-types';
+
+interface ContactClientProps {
+    settings: EventSettings | null;
+}
+
+const volunteerInterests = [
+    { id: 'registration', label: 'Registration & Check-in' },
+    { id: 'setup', label: 'Event Setup & Teardown' },
+    { id: 'speakers', label: 'Speaker Support' },
+    { id: 'networking', label: 'Networking Support' },
+    { id: 'social', label: 'Social Media & Photography' },
+    { id: 'general', label: 'General Assistance' },
+];
+
+export default function ContactClient({ settings }: ContactClientProps) {
+    const [activeTab, setActiveTab] = useState<'contact' | 'volunteer'>('contact');
+    const eventName = settings?.eventName || 'Innovators Summit';
+    const venueName = settings?.venue?.name || 'Muskegon Convention Center';
+    const venueCity = settings?.venue?.city || 'Muskegon';
+
+    // Contact form state
+    const [contactForm, setContactForm] = useState({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+    });
+    const [contactStatus, setContactStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+    // Volunteer form state
+    const [volunteerForm, setVolunteerForm] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        interests: [] as string[],
+        availability: '',
+        experience: '',
+    });
+    const [volunteerStatus, setVolunteerStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+    const handleContactSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        setContactStatus('loading');
+        try {
+            const response = await fetch('/api/contact-submissions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(contactForm),
+            });
+            if (!response.ok) throw new Error('Failed to submit contact form');
+            setContactStatus('success');
+            setContactForm({ name: '', email: '', subject: '', message: '' });
+        } catch (error) {
+            console.error('Contact form error:', error);
+            setContactStatus('error');
+        } finally {
+            setTimeout(() => setContactStatus('idle'), 5000);
+        }
+    };
+
+    const handleVolunteerSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        setVolunteerStatus('loading');
+        try {
+            const response = await fetch('/api/volunteer-submissions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(volunteerForm),
+            });
+            if (!response.ok) throw new Error('Failed to submit volunteer form');
+            setVolunteerStatus('success');
+            setVolunteerForm({ name: '', email: '', phone: '', interests: [], availability: '', experience: '' });
+        } catch (error) {
+            console.error('Volunteer form error:', error);
+            setVolunteerStatus('error');
+        } finally {
+            setTimeout(() => setVolunteerStatus('idle'), 5000);
+        }
+    };
+
+    const handleInterestToggle = (interestId: string) => {
+        setVolunteerForm(prev => ({
+            ...prev,
+            interests: prev.interests.includes(interestId)
+                ? prev.interests.filter(i => i !== interestId)
+                : [...prev.interests, interestId],
+        }));
+    };
+
+    return (
+        <div className="min-h-screen bg-gradient-to-b from-[#001133] via-[#002266] to-[#001133]">
+            {/* Hero Section */}
+            <section className="py-20 px-4">
+                <div className="max-w-6xl mx-auto text-center">
+                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Get in Touch</h1>
+                    <div className="w-24 h-1 bg-[#FFB703] mx-auto rounded-full mb-6" />
+                    <p className="text-white/70 text-lg max-w-2xl mx-auto">
+                        Have questions about the {eventName}? Want to get involved? We&apos;d love to hear from you.
+                    </p>
+                </div>
+            </section>
+
+            {/* Tab Navigation */}
+            <section className="px-4">
+                <div className="max-w-4xl mx-auto">
+                    <div className="flex justify-center mb-8">
+                        <div className="bg-white/5 rounded-lg p-1 inline-flex">
+                            <button
+                                onClick={() => setActiveTab('contact')}
+                                className={`px-6 py-3 rounded-lg font-medium transition-all ${activeTab === 'contact' ? 'bg-[#FFB703] text-[#001133]' : 'text-white/60 hover:text-white'}`}
+                            >
+                                Contact Us
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('volunteer')}
+                                className={`px-6 py-3 rounded-lg font-medium transition-all ${activeTab === 'volunteer' ? 'bg-[#FFB703] text-[#001133]' : 'text-white/60 hover:text-white'}`}
+                            >
+                                Volunteer
+                            </button>
+                        </div>
+                    </div>
+
+                    {activeTab === 'contact' ? (
+                        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+                            <h2 className="text-2xl font-bold text-white mb-6">Send Us a Message</h2>
+                            <form onSubmit={handleContactSubmit} className="space-y-6">
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label htmlFor="name" className="block text-white/80 text-sm font-medium mb-2">Your Name</label>
+                                        <input type="text" id="name" value={contactForm.name} onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))} required className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3DD1CC] focus:border-transparent" placeholder="John Doe" />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="email" className="block text-white/80 text-sm font-medium mb-2">Email Address</label>
+                                        <input type="email" id="email" value={contactForm.email} onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))} required className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3DD1CC] focus:border-transparent" placeholder="john@example.com" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="subject" className="block text-white/80 text-sm font-medium mb-2">Subject</label>
+                                    <select id="subject" value={contactForm.subject} onChange={(e) => setContactForm(prev => ({ ...prev, subject: e.target.value }))} required className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-[#3DD1CC] focus:border-transparent">
+                                        <option value="" className="bg-[#001133]">Select a subject</option>
+                                        <option value="general" className="bg-[#001133]">General Inquiry</option>
+                                        <option value="sponsorship" className="bg-[#001133]">Sponsorship Opportunities</option>
+                                        <option value="media" className="bg-[#001133]">Media & Press</option>
+                                        <option value="other" className="bg-[#001133]">Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label htmlFor="message" className="block text-white/80 text-sm font-medium mb-2">Message</label>
+                                    <textarea id="message" value={contactForm.message} onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))} required rows={5} className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3DD1CC] focus:border-transparent resize-none" placeholder="How can we help you?" />
+                                </div>
+                                <button type="submit" disabled={contactStatus === 'loading'} className="w-full px-6 py-4 bg-[#FFB703] text-[#001133] font-semibold rounded-lg hover:bg-[#E5A503] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
+                                    {contactStatus === 'loading' ? 'Sending...' : 'Send Message'}
+                                </button>
+                                {contactStatus === 'success' && <p className="text-[#3DD1CC] text-center">Thank you for your message! We&apos;ll get back to you soon.</p>}
+                                {contactStatus === 'error' && <p className="text-red-500 text-center">There was an error sending your message. Please try again.</p>}
+                            </form>
+                        </div>
+                    ) : (
+                        <div id="volunteer" className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+                            <h2 className="text-2xl font-bold text-white mb-2">Volunteer at the {eventName}</h2>
+                            <p className="text-white/60 mb-6">Join our team of volunteers and help make the {eventName} a success. Volunteers receive free admission and exclusive swag.</p>
+                            <form onSubmit={handleVolunteerSubmit} className="space-y-6">
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label htmlFor="vol-name" className="block text-white/80 text-sm font-medium mb-2">Full Name</label>
+                                        <input type="text" id="vol-name" value={volunteerForm.name} onChange={(e) => setVolunteerForm(prev => ({ ...prev, name: e.target.value }))} required className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3DD1CC] focus:border-transparent" placeholder="John Doe" />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="vol-email" className="block text-white/80 text-sm font-medium mb-2">Email Address</label>
+                                        <input type="email" id="vol-email" value={volunteerForm.email} onChange={(e) => setVolunteerForm(prev => ({ ...prev, email: e.target.value }))} required className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3DD1CC] focus:border-transparent" placeholder="john@example.com" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="vol-phone" className="block text-white/80 text-sm font-medium mb-2">Phone Number</label>
+                                    <input type="tel" id="vol-phone" value={volunteerForm.phone} onChange={(e) => setVolunteerForm(prev => ({ ...prev, phone: e.target.value }))} required className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3DD1CC] focus:border-transparent" placeholder="(231) 555-1234" />
+                                </div>
+                                <div>
+                                    <label className="block text-white/80 text-sm font-medium mb-3">Areas of Interest</label>
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                        {volunteerInterests.map((interest) => (
+                                            <label key={interest.id} className={`flex items-center p-3 rounded-lg border cursor-pointer transition-all ${volunteerForm.interests.includes(interest.id) ? 'bg-[#0048E5]/20 border-[#0048E5]' : 'bg-white/5 border-white/10 hover:border-white/30'}`}>
+                                                <input type="checkbox" checked={volunteerForm.interests.includes(interest.id)} onChange={() => handleInterestToggle(interest.id)} className="sr-only" />
+                                                <span className="text-white/80 text-sm">{interest.label}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="availability" className="block text-white/80 text-sm font-medium mb-2">Availability</label>
+                                    <select id="availability" value={volunteerForm.availability} onChange={(e) => setVolunteerForm(prev => ({ ...prev, availability: e.target.value }))} required className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-[#3DD1CC] focus:border-transparent">
+                                        <option value="" className="bg-[#001133]">Select your availability</option>
+                                        <option value="morning" className="bg-[#001133]">Morning (Setup & Registration)</option>
+                                        <option value="afternoon" className="bg-[#001133]">Afternoon (Event Support)</option>
+                                        <option value="evening" className="bg-[#001133]">Evening (Teardown & Cleanup)</option>
+                                        <option value="allday" className="bg-[#001133]">All Day</option>
+                                    </select>
+                                </div>
+                                <button type="submit" disabled={volunteerStatus === 'loading'} className="w-full px-6 py-4 bg-[#FFB703] text-[#001133] font-semibold rounded-lg hover:bg-[#E5A503] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
+                                    {volunteerStatus === 'loading' ? 'Applying...' : 'Apply to Volunteer'}
+                                </button>
+                                {volunteerStatus === 'success' && <p className="text-[#3DD1CC] text-center">Thank you! We&apos;ll be in touch soon.</p>}
+                                {volunteerStatus === 'error' && <p className="text-red-500 text-center">Error submitting application. Please try again.</p>}
+                            </form>
+                        </div>
+                    )}
+                </div>
+            </section>
+
+            {/* Contact Info Section */}
+            <section className="py-20 px-4">
+                <div className="max-w-4xl mx-auto">
+                    <div className="grid md:grid-cols-2 gap-6">
+                        <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 text-center">
+                            <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#FFB703]/20 flex items-center justify-center">
+                                <svg className="w-6 h-6 text-[#FFB703]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h3 className="text-white font-semibold mb-2">Email</h3>
+                            <a href="mailto:info@innovatorssummit.org" className="text-[#3DD1CC] hover:underline">info@innovatorssummit.org</a>
+                        </div>
+                        <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 text-center">
+                            <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#0048E5]/20 flex items-center justify-center">
+                                <svg className="w-6 h-6 text-[#0048E5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </div>
+                            <h3 className="text-white font-semibold mb-2">Location</h3>
+                            <p className="text-white/60 text-sm">{venueName}<br />{venueCity}</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    );
+}
