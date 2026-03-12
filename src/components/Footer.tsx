@@ -67,16 +67,6 @@ export default function Footer({ settings }: FooterProps) {
           <div>
             <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              {/* <li>
-                <Link href="/speakers" className="text-white/60 hover:text-[#3DD1CC] transition-colors text-sm">
-                  Speakers
-                </Link>
-              </li>
-              <li>
-                <Link href="/sponsors" className="text-white/60 hover:text-[#3DD1CC] transition-colors text-sm">
-                  Sponsors
-                </Link>
-              </li> */}
               <li>
                 <Link href="/about" className="text-white/60 hover:text-[#3DD1CC] transition-colors text-sm">
                   About the Summit
@@ -119,7 +109,7 @@ export default function Footer({ settings }: FooterProps) {
           <div className="flex items-center space-x-6 text-white/40 text-sm">
             <span>Presented by</span>
             <img 
-              src="https://muskegoninnovatorssummit.com/api/media/file/MIH_markleft_white-1.png" 
+              src="/api/media/file/MIH_markleft_white-1.png" 
               alt="Muskegon Innovation Hub Logo" 
               className="h-12 w-auto opacity-80 hover:opacity-100 transition-opacity"
             />

@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { isAdminOrEditor } from '../lib/access'
+import path from 'path'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -10,7 +11,7 @@ export const Media: CollectionConfig = {
     delete: isAdminOrEditor,
   },
   upload: {
-    staticDir: 'media',
+    staticDir: path.resolve(process.cwd(), 'media'),
     imageSizes: [
       { name: 'thumbnail', width: 300, height: 300 },
       { name: 'small', width: 600, height: 600 },
