@@ -150,133 +150,14 @@ export default async function Home() {
       </section>
 
       {/* Speakers Preview Section */}
-      <section id="speakers" className="py-24 px-8 md:px-16 lg:px-24 bg-[#002266] relative overflow-hidden">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-16 space-y-4">
-            <h2 className="text-sm md:text-base font-black uppercase tracking-[0.4em] text-[#3DD1CC]">The Lineup</h2>
-            <h3 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">Featured Speakers</h3>
-            <div className="w-24 h-1 bg-[#FFB703] mx-auto rounded-full" />
-          </div>
-
-          {featuredSpeakers.length > 0 ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredSpeakers.map((speaker) => (
-                <div
-                  key={speaker.id}
-                  className="bg-white/5 backdrop-blur-md rounded-[2.5rem] p-8 border border-white/10 hover:border-[#FFB703]/50 transition-all duration-300 group"
-                >
-                  {/* Speaker Avatar */}
-                  {speaker.photo?.url ? (
-                    <img
-                      src={speaker.photo.url}
-                      alt={speaker.photo?.alt || speaker.name}
-                      className="w-32 h-32 mx-auto mb-6 rounded-full object-cover border-4 border-[#3DD1CC]/20 group-hover:border-[#FFB703]/50 transition-colors"
-                    />
-                  ) : (
-                    <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#0048E5] to-[#3DD1CC] flex items-center justify-center">
-                      <span className="text-4xl font-black text-white">
-                        {speaker.name.split(' ').map(n => n[0]).join('')}
-                      </span>
-                    </div>
-                  )}
-                  <h3 className="text-2xl font-black text-white text-center mb-2 group-hover:text-[#FFB703] transition-colors uppercase tracking-tight">
-                    {speaker.name}
-                  </h3>
-                  <p className="text-[#3DD1CC] text-sm font-black text-center mb-4 uppercase tracking-widest">
-                    {speaker.jobTitle}{speaker.company ? ` | ${speaker.company}` : ''}
-                  </p>
-                  {speaker.shortBio && (
-                    <p className="text-white/60 text-center italic leading-relaxed">
-                      &ldquo;{speaker.shortBio}&rdquo;
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-white/40 font-bold uppercase tracking-widest">Speaker announcements coming soon!</p>
-            </div>
-          )}
-
-          <div className="text-center mt-16">
-            <Link
-              href="/speakers"
-              className="inline-flex items-center px-8 py-4 border-2 border-[#3DD1CC] text-[#3DD1CC] font-black rounded-full hover:bg-[#3DD1CC] hover:text-[#001133] transition-all uppercase tracking-widest"
-            >
-              View All Speakers
-              <svg className="w-5 h-5 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* <section id="speakers" className="py-24 px-8 md:px-16 lg:px-24 bg-[#002266] relative overflow-hidden">
+        ... (commented out)
+      </section> */}
 
       {/* Sponsors Preview Section */}
-      <section id="sponsors" className="py-24 px-8 md:px-16 lg:px-24 bg-gradient-to-b from-[#002266] to-[#001133]">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-16 space-y-4">
-            <h2 className="text-sm md:text-base font-black uppercase tracking-[0.4em] text-[#FFB703]">Partnership</h2>
-            <h3 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">Our Sponsors</h3>
-            <div className="w-24 h-1 bg-[#3DD1CC] mx-auto rounded-full" />
-          </div>
-
-          {Object.values(sponsorsByTier).some(arr => arr.length > 0) ? (
-            <div className="space-y-16">
-              {sponsorTiers.map((tier) => {
-                const tierSponsors = sponsorsByTier[tier.key];
-                if (tierSponsors.length === 0) return null;
-
-                return (
-                  <div key={tier.key} className="text-center">
-                    <h3
-                      className="text-xl font-black mb-8 uppercase tracking-[0.3em]"
-                      style={{ color: tier.color }}
-                    >
-                      {tier.name}
-                    </h3>
-                    <div className="flex justify-center items-center gap-8 md:gap-12 flex-wrap">
-                      {tierSponsors.map((sponsor) => (
-                        <div
-                          key={sponsor.id}
-                          className="w-48 h-24 bg-white/5 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/10 hover:border-white/30 transition-all group p-4"
-                        >
-                          {sponsor.logo?.url ? (
-                            <img
-                              src={sponsor.logo.url}
-                              alt={sponsor.logo?.alt || sponsor.name}
-                              className="max-w-full max-h-16 object-contain filter brightness-90 group-hover:brightness-100 transition-all"
-                            />
-                          ) : (
-                            <span className="text-white/60 text-sm font-black uppercase tracking-tight">{sponsor.name}</span>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-white/40 font-bold uppercase tracking-widest">Sponsor announcements coming soon!</p>
-            </div>
-          )}
-
-          <div className="text-center mt-16">
-            <Link
-              href="/sponsors"
-              className="inline-flex items-center px-10 py-5 bg-[#FFB703] text-[#001133] font-black rounded-full hover:bg-white transition-all uppercase tracking-widest shadow-xl"
-            >
-              Become a Sponsor
-              <svg className="w-5 h-5 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* <section id="sponsors" className="py-24 px-8 md:px-16 lg:px-24 bg-gradient-to-b from-[#002266] to-[#001133]">
+        ... (commented out)
+      </section> */}
 
       {/* CTA Section */}
       <section className="py-20 px-4 bg-[#001133] relative overflow-hidden">

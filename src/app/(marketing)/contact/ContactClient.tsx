@@ -17,9 +17,9 @@ const volunteerInterests = [
 ];
 
 export default function ContactClient({ settings }: ContactClientProps) {
-    const [activeTab, setActiveTab] = useState<'contact' | 'volunteer'>('contact');
+    const [activeTab, setActiveTab] = useState<'contact' | 'volunteer' | 'exhibitor'>('contact');
     const eventName = settings?.eventName || 'Innovators Summit';
-    const venueName = settings?.venue?.name || 'Muskegon Convention Center';
+    const venueName = settings?.venue?.name || 'VanDyk Mortgage Muskegon Convention Center';
     const venueCity = settings?.venue?.city || 'Muskegon';
 
     // Contact form state
@@ -41,6 +41,18 @@ export default function ContactClient({ settings }: ContactClientProps) {
         experience: '',
     });
     const [volunteerStatus, setVolunteerStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+    // Exhibitor form state
+    const [exhibitorForm, setExhibitorForm] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        website: '',
+        description: '',
+        notes: '',
+    });
+    const [exhibitorStatus, setExhibitorStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
     const handleContactSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -79,6 +91,26 @@ export default function ContactClient({ settings }: ContactClientProps) {
             setVolunteerStatus('error');
         } finally {
             setTimeout(() => setVolunteerStatus('idle'), 5000);
+        }
+    };
+
+    const handleExhibitorSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        setExhibitorStatus('loading');
+        try {
+            const response = await fetch('/api/exhibitor-submissions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(exhibitorForm),
+            });
+            if (!response.ok) throw new Error('Failed to submit exhibitor form');
+            setExhibitorStatus('success');
+            setExhibitorForm({ name: '', email: '', phone: '', company: '', website: '', description: '', notes: '' });
+        } catch (error) {
+            console.error('Exhibitor form error:', error);
+            setExhibitorStatus('error');
+        } finally {
+            setTimeout(() => setExhibitorStatus('idle'), 5000);
         }
     };
 
@@ -121,10 +153,16 @@ export default function ContactClient({ settings }: ContactClientProps) {
                             >
                                 Volunteer
                             </button>
+                            <button
+                                onClick={() => setActiveTab('exhibitor')}
+                                className={`px-6 py-3 rounded-lg font-medium transition-all ${activeTab === 'exhibitor' ? 'bg-[#FFB703] text-[#001133]' : 'text-white/60 hover:text-white'}`}
+                            >
+                                Exhibitor
+                            </button>
                         </div>
                     </div>
 
-                    {activeTab === 'contact' ? (
+                    {activeTab === 'contact' && (
                         <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
                             <h2 className="text-2xl font-bold text-white mb-6">Send Us a Message</h2>
                             <form onSubmit={handleContactSubmit} className="space-y-6">
@@ -159,7 +197,9 @@ export default function ContactClient({ settings }: ContactClientProps) {
                                 {contactStatus === 'error' && <p className="text-red-500 text-center">There was an error sending your message. Please try again.</p>}
                             </form>
                         </div>
-                    ) : (
+                    )}
+
+                    {activeTab === 'volunteer' && (
                         <div id="volunteer" className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
                             <h2 className="text-2xl font-bold text-white mb-2">Volunteer at the {eventName}</h2>
                             <p className="text-white/60 mb-6">Join our team of volunteers and help make the {eventName} a success. Volunteers receive free admission and exclusive swag.</p>
@@ -207,6 +247,52 @@ export default function ContactClient({ settings }: ContactClientProps) {
                             </form>
                         </div>
                     )}
+
+                    {activeTab === 'exhibitor' && (
+                        <div id="exhibitor" className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+                            <h2 className="text-2xl font-bold text-white mb-2">Apply to Exhibit</h2>
+                            <p className="text-white/60 mb-6">Showcase your innovation at the {eventName}. Limited spots available.</p>
+                            <form onSubmit={handleExhibitorSubmit} className="space-y-6">
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label htmlFor="exh-name" className="block text-white/80 text-sm font-medium mb-2">Contact Name</label>
+                                        <input type="text" id="exh-name" value={exhibitorForm.name} onChange={(e) => setExhibitorForm(prev => ({ ...prev, name: e.target.value }))} required className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3DD1CC] focus:border-transparent" placeholder="John Doe" />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="exh-email" className="block text-white/80 text-sm font-medium mb-2">Email Address</label>
+                                        <input type="email" id="exh-email" value={exhibitorForm.email} onChange={(e) => setExhibitorForm(prev => ({ ...prev, email: e.target.value }))} required className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3DD1CC] focus:border-transparent" placeholder="john@example.com" />
+                                    </div>
+                                </div>
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label htmlFor="exh-phone" className="block text-white/80 text-sm font-medium mb-2">Phone Number</label>
+                                        <input type="tel" id="exh-phone" value={exhibitorForm.phone} onChange={(e) => setExhibitorForm(prev => ({ ...prev, phone: e.target.value }))} required className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3DD1CC] focus:border-transparent" placeholder="(231) 555-1234" />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="exh-company" className="block text-white/80 text-sm font-medium mb-2">Company / Organization</label>
+                                        <input type="text" id="exh-company" value={exhibitorForm.company} onChange={(e) => setExhibitorForm(prev => ({ ...prev, company: e.target.value }))} required className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3DD1CC] focus:border-transparent" placeholder="Innovation Co." />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="exh-website" className="block text-white/80 text-sm font-medium mb-2">Website (Optional)</label>
+                                    <input type="url" id="exh-website" value={exhibitorForm.website} onChange={(e) => setExhibitorForm(prev => ({ ...prev, website: e.target.value }))} className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3DD1CC] focus:border-transparent" placeholder="https://example.com" />
+                                </div>
+                                <div>
+                                    <label htmlFor="exh-description" className="block text-white/80 text-sm font-medium mb-2">What will you be exhibiting?</label>
+                                    <textarea id="exh-description" value={exhibitorForm.description} onChange={(e) => setExhibitorForm(prev => ({ ...prev, description: e.target.value }))} required rows={3} className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3DD1CC] focus:border-transparent resize-none" placeholder="Describe your product, service, or project." />
+                                </div>
+                                <div>
+                                    <label htmlFor="exh-notes" className="block text-white/80 text-sm font-medium mb-2">Additional Notes / Special Requirements</label>
+                                    <textarea id="exh-notes" value={exhibitorForm.notes} onChange={(e) => setExhibitorForm(prev => ({ ...prev, notes: e.target.value }))} rows={2} className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3DD1CC] focus:border-transparent resize-none" placeholder="e.g., electricity needs, oversized display, etc." />
+                                </div>
+                                <button type="submit" disabled={exhibitorStatus === 'loading'} className="w-full px-6 py-4 bg-[#FFB703] text-[#001133] font-semibold rounded-lg hover:bg-[#E5A503] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
+                                    {exhibitorStatus === 'loading' ? 'Applying...' : 'Apply to Exhibit'}
+                                </button>
+                                {exhibitorStatus === 'success' && <p className="text-[#3DD1CC] text-center">Thank you! Your exhibitor application has been submitted.</p>}
+                                {exhibitorStatus === 'error' && <p className="text-red-500 text-center">Error submitting application. Please try again.</p>}
+                            </form>
+                        </div>
+                    )}
                 </div>
             </section>
 
@@ -221,7 +307,7 @@ export default function ContactClient({ settings }: ContactClientProps) {
                                 </svg>
                             </div>
                             <h3 className="text-white font-semibold mb-2">Email</h3>
-                            <a href="mailto:info@innovatorssummit.org" className="text-[#3DD1CC] hover:underline">info@innovatorssummit.org</a>
+                            <a href="mailto:info@muskegoninnovatorssummit.com" className="text-[#3DD1CC] hover:underline">info@muskegoninnovatorssummit.com</a>
                         </div>
                         <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 text-center">
                             <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#0048E5]/20 flex items-center justify-center">

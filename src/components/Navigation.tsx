@@ -6,8 +6,8 @@ import { useState } from 'react';
 
 const navLinks = [
   { href: '/', label: 'Home' },
-  { href: '/speakers', label: 'Speakers' },
-  { href: '/sponsors', label: 'Sponsors' },
+  // { href: '/speakers', label: 'Speakers' },
+  // { href: '/sponsors', label: 'Sponsors' },
   { href: '/about', label: 'About the Summit' },
   { href: '/contact', label: 'Contact/Volunteer' },
 ];

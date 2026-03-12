@@ -64,9 +64,9 @@ const schedule = [
 ];
 
 const venueInfo = {
-  name: "Muskegon Convention Center",
+  name: "VanDyk Mortgage Muskegon Convention Center",
   address: "123 Convention Drive, Muskegon, MI 49440",
-  description: "The Muskegon Convention Center offers state-of-the-art facilities with stunning views of Lake Michigan. Our event will utilize the main ballroom for keynotes and multiple breakout rooms for workshops and panels.",
+  description: "The VanDyk Mortgage Muskegon Convention Center offers state-of-the-art facilities with stunning views of Lake Michigan. Our event will utilize the main ballroom for keynotes and multiple breakout rooms for workshops and panels.",
   amenities: [
     "Free parking for all attendees",
     "Complimentary WiFi throughout the venue",
@@ -86,7 +86,7 @@ export default function AboutPage() {
             Schedule & <span className="text-[#FFA500]">Sessions</span>
           </h1>
           <p className="text-white/60 text-xl md:text-2xl font-medium max-w-3xl mx-auto">
-            Join us for a day of inspiration, learning, and connection at the Muskegon Innovation Hub.
+            Join us for a day of inspiration, learning, and connection at the <Link href="http://gvsu.edu/mihub/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#3DD1CC] transition-colors underline decoration-[#3DD1CC] decoration-2 underline-offset-4">Muskegon Innovation Hub</Link>.
           </p>
         </div>
       </section>
@@ -136,8 +136,17 @@ export default function AboutPage() {
                 </div>
               </div>
             </div>
-            <div className="aspect-video bg-white/10 rounded-[2.5rem] overflow-hidden border border-white/10 flex items-center justify-center">
-              <span className="text-white/20 font-black uppercase tracking-widest">Venue Map / Photos</span>
+            <div className="aspect-video bg-white/10 rounded-[2.5rem] overflow-hidden border border-white/10">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m12!1m8!1m3!1d23254.146517863224!2d-86.254974!3d43.235317!3m2!1i1024!2i768!4f13.1!2m1!1smuskegon%20convention%20center!5e0!3m2!1sen!2sus!4v1773260079418!5m2!1sen!2sus"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={true}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Google Maps - VanDyk Mortgage VanDyk Mortgage Muskegon Convention Center"
+              ></iframe>
             </div>
           </div>
         </div>

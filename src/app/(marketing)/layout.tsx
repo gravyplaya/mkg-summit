@@ -20,12 +20,12 @@ const geistMono = Geist_Mono({
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getEventSettings() as unknown as EventSettings;
   const eventName = settings?.eventName || "Innovators Summit 2026";
-  const venueName = settings?.venue?.name || "Muskegon Convention Center";
+  const venueName = settings?.venue?.name || "VanDyk Mortgage Muskegon Convention Center";
   const eventDate = settings?.eventDate ? new Date(settings.eventDate).toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
     year: 'numeric'
-  }) : "April 21st, 2026";
+  }) : "April 21, 2026";
 
   return {
     title: `${eventName} | Muskegon, Michigan`,

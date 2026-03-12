@@ -58,4 +58,26 @@ export const VolunteerSubmissions: CollectionConfig = {
             type: 'textarea',
         },
     ],
+    hooks: {
+        afterChange: [
+            async ({ doc, req, operation }) => {
+                if (operation === 'create') {
+                    await req.payload.sendEmail({
+                        to: 'info@muskegoninnovatorssummit.com',
+                        subject: `New Volunteer Application: ${doc.name}`,
+                        html: `
+                            <h1>New Volunteer Application</h1>
+                            <p><strong>Name:</strong> ${doc.name}</p>
+                            <p><strong>Email:</strong> ${doc.email}</p>
+                            <p><strong>Phone:</strong> ${doc.phone}</p>
+                            <p><strong>Interests:</strong> ${Array.isArray(doc.interests) ? doc.interests.join(', ') : doc.interests}</p>
+                            <p><strong>Availability:</strong> ${doc.availability}</p>
+                            <p><strong>Experience:</strong></p>
+                            <p>${doc.experience || 'N/A'}</p>
+                        `,
+                    })
+                }
+            },
+        ],
+    },
 }

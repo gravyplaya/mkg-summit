@@ -30,7 +30,7 @@ export default function Hero({ settings }: HeroProps) {
     const getOrdinal = (n: number) => {
       if (n >= 11 && n <= 13) return `${n}th`;
       switch (n % 10) {
-        case 1: return `${n}st`;
+        case 1: return `${n}`;
         case 2: return `${n}nd`;
         case 3: return `${n}rd`;
         default: return `${n}th`;
@@ -41,9 +41,9 @@ export default function Hero({ settings }: HeroProps) {
   };
 
   const eventName = settings?.eventName || 'MKG Summit';
-  const eventDate = settings?.eventDate ? formatDate(settings.eventDate as unknown as string) : 'April 21st, 2026';
-  const eventTime = (settings as any)?.eventTime || '12:00 PM';
-  const venueName = settings?.venue?.name || 'Muskegon Convention Center';
+  const eventDate = settings?.eventDate ? formatDate(settings.eventDate as unknown as string) : 'April 21, 2026';
+  const eventTime = (settings as any)?.eventTime || '1:00 PM';
+  const venueName = settings?.venue?.name || 'VanDyk Mortgage Muskegon Convention Center';
   const heroImage = (settings?.heroImage && typeof settings.heroImage === 'object')
     ? (settings.heroImage as any).url
     : '/images/pinwheel.png';
@@ -134,7 +134,7 @@ export default function Hero({ settings }: HeroProps) {
 
                 {/* Host */}
                 <div className="text-xl md:text-2xl font-semibold text-white/90 drop-shadow-md">
-                  Hosted by <span className="text-white font-black border-b-4 border-[#3DD1CC]">Muskegon Innovation Hub</span>
+                  Hosted by <Link href="http://gvsu.edu/mihub/" target="_blank" rel="noopener noreferrer" className="text-white font-black border-b-4 border-[#3DD1CC] hover:text-[#3DD1CC] hover:border-[#FFB703] transition-all duration-300">Muskegon Innovation Hub</Link>
                 </div>
               </div>
 

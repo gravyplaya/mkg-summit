@@ -1,7 +1,7 @@
 **The Innovators Summit**  
 **Hosted by the Muskegon Innovation Hub (and partners and sponsors)**
 
-**April 21, 2026 · Muskegon Convention Center**  
+**April 21, 2026 · VanDyk Mortgage Muskegon Convention Center**  
 *(World Innovation Day)*
 
 ---

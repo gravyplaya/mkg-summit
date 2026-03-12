@@ -1,6 +1,7 @@
 import { buildConfig } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { resendAdapter } from '@payloadcms/email-resend'
 import sharp from 'sharp'
 
 // Collections
@@ -11,6 +12,7 @@ import { Sessions } from './collections/Sessions'
 import { Users } from './collections/Users'
 import { ContactSubmissions } from './collections/ContactSubmissions'
 import { VolunteerSubmissions } from './collections/VolunteerSubmissions'
+import { ExhibitorSubmissions } from './collections/ExhibitorSubmissions'
 
 // Globals
 import { EventSettings } from './globals/EventSettings'
@@ -27,6 +29,12 @@ export default buildConfig({
   editor: lexicalEditor(),
   sharp,
 
+  email: resendAdapter({
+    defaultFromAddress: process.env.RESEND_FROM_ADDRESS || 'info@muskegoninnovatorssummit.com',
+    defaultFromName: process.env.RESEND_FROM_NAME || 'Muskegon Innovators Summit',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
+
   collections: [
     Media,
     Speakers,
@@ -35,6 +43,7 @@ export default buildConfig({
     Users,
     ContactSubmissions,
     VolunteerSubmissions,
+    ExhibitorSubmissions,
   ],
 
   globals: [

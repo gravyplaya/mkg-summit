@@ -29,9 +29,9 @@ export default function Footer({ settings }: FooterProps) {
   };
 
   const eventName = settings?.eventName || 'Innovators Summit';
-  const eventDate = settings?.eventDate ? formatDate(settings.eventDate as unknown as string) : 'April 21st, 2026';
+  const eventDate = settings?.eventDate ? formatDate(settings.eventDate as unknown as string) : 'April 21, 2026';
   const eventTime = (settings as any)?.eventTime || '12:00 PM';
-  const venueName = settings?.venue?.name || 'Muskegon Convention Center';
+  const venueName = settings?.venue?.name || 'VanDyk Mortgage Muskegon Convention Center';
 
   return (
     <footer className="bg-[#000d22] border-t border-white/10">
@@ -67,7 +67,7 @@ export default function Footer({ settings }: FooterProps) {
           <div>
             <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li>
+              {/* <li>
                 <Link href="/speakers" className="text-white/60 hover:text-[#3DD1CC] transition-colors text-sm">
                   Speakers
                 </Link>
@@ -76,7 +76,7 @@ export default function Footer({ settings }: FooterProps) {
                 <Link href="/sponsors" className="text-white/60 hover:text-[#3DD1CC] transition-colors text-sm">
                   Sponsors
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link href="/about" className="text-white/60 hover:text-[#3DD1CC] transition-colors text-sm">
                   About the Summit
@@ -116,11 +116,13 @@ export default function Footer({ settings }: FooterProps) {
           <p className="text-white/40 text-sm">
             © {new Date().getFullYear()} {eventName}. All rights reserved.
           </p>
-          <div className="flex items-center space-x-4 text-white/40 text-sm">
+          <div className="flex items-center space-x-6 text-white/40 text-sm">
             <span>Presented by</span>
-            <span className="text-white/60 font-medium">Muskegon Innovation Hub</span>
-            <span className="text-white/20">|</span>
-            <span className="text-white/60 font-medium">Grand Valley State University</span>
+            <img 
+              src="https://muskegoninnovatorssummit.com/api/media/file/MIH_markleft_white-1.png" 
+              alt="Muskegon Innovation Hub Logo" 
+              className="h-12 w-auto opacity-80 hover:opacity-100 transition-opacity"
+            />
           </div>
         </div>
       </div>

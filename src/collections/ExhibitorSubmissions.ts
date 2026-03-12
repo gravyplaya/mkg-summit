@@ -1,11 +1,11 @@
 import type { CollectionConfig } from 'payload'
 import { isAdminOrEditor } from '../lib/access'
 
-export const ContactSubmissions: CollectionConfig = {
-    slug: 'contact-submissions',
+export const ExhibitorSubmissions: CollectionConfig = {
+    slug: 'exhibitor-submissions',
     admin: {
         useAsTitle: 'name',
-        defaultColumns: ['name', 'email', 'subject', 'createdAt'],
+        defaultColumns: ['name', 'email', 'company', 'createdAt'],
     },
     access: {
         create: () => true, // Allow public submissions
@@ -25,20 +25,27 @@ export const ContactSubmissions: CollectionConfig = {
             required: true,
         },
         {
-            name: 'subject',
-            type: 'select',
+            name: 'phone',
+            type: 'text',
             required: true,
-            options: [
-                { label: 'General Inquiry', value: 'general' },
-                { label: 'Sponsorship Opportunities', value: 'sponsorship' },
-                { label: 'Media & Press', value: 'media' },
-                { label: 'Other', value: 'other' },
-            ],
         },
         {
-            name: 'message',
+            name: 'company',
+            type: 'text',
+            required: true,
+        },
+        {
+            name: 'website',
+            type: 'text',
+        },
+        {
+            name: 'description',
             type: 'textarea',
             required: true,
+        },
+        {
+            name: 'notes',
+            type: 'textarea',
         },
     ],
     hooks: {
@@ -47,14 +54,16 @@ export const ContactSubmissions: CollectionConfig = {
                 if (operation === 'create') {
                     await req.payload.sendEmail({
                         to: 'info@muskegoninnovatorssummit.com',
-                        subject: `New Contact Submission: ${doc.subject}`,
+                        subject: `New Exhibitor Submission: ${doc.company}`,
                         html: `
-                            <h1>New Contact Submission</h1>
+                            <h1>New Exhibitor Submission</h1>
                             <p><strong>Name:</strong> ${doc.name}</p>
                             <p><strong>Email:</strong> ${doc.email}</p>
-                            <p><strong>Subject:</strong> ${doc.subject}</p>
-                            <p><strong>Message:</strong></p>
-                            <p>${doc.message}</p>
+                            <p><strong>Phone:</strong> ${doc.phone}</p>
+                            <p><strong>Company:</strong> ${doc.company}</p>
+                            <p><strong>Website:</strong> ${doc.website || 'N/A'}</p>
+                            <p><strong>Description:</strong> ${doc.description}</p>
+                            <p><strong>Notes:</strong> ${doc.notes || 'N/A'}</p>
                         `,
                     })
                 }
