@@ -108,9 +108,9 @@ export default function Footer({ settings }: FooterProps) {
           </p>
           <div className="flex items-center space-x-6 text-white/40 text-sm">
             <span>Presented by</span>
-            <img 
-              src="/api/media/file/MIH_markleft_white-1.png" 
-              alt="Muskegon Innovation Hub Logo" 
+            <img
+              src="/api/media/file/MIH_markleft_white-2.png"
+              alt="Muskegon Innovation Hub Logo"
               className="h-12 w-auto opacity-80 hover:opacity-100 transition-opacity"
             />
           </div>

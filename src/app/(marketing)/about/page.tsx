@@ -51,12 +51,6 @@ const schedule = [
   },
   {
     time: "5:00 PM",
-    title: "Micro Pitch Competition",
-    description: "Small founders/startups compete for prize money w/ Happy Hour",
-    icon: "competition",
-  },
-  {
-    time: "6:00 PM",
     title: "Close",
     description: "Event concludes",
     icon: "registration",
@@ -86,7 +80,7 @@ export default function AboutPage() {
             Schedule & <span className="text-[#FFA500]">Sessions</span>
           </h1>
           <p className="text-white/60 text-xl md:text-2xl font-medium max-w-3xl mx-auto">
-            Join us for a day of inspiration, learning, and connection at the <Link href="http://gvsu.edu/mihub/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#3DD1CC] transition-colors underline decoration-[#3DD1CC] decoration-2 underline-offset-4">Muskegon Innovation Hub</Link>.
+            Join us for a day of inspiration, learning, and connection.
           </p>
         </div>
       </section>
