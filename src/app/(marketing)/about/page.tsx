@@ -1,4 +1,6 @@
 import { getSessions, getSpeakers } from "@/lib/api";
+
+export const dynamic = 'force-dynamic';
 import type { Sessions as SessionType, Speakers as SpeakerType } from "@/payload-types";
 
 type SpeakerMap = Record<string, { name: string; company?: string | null }>;
