@@ -26,12 +26,12 @@ const trackTextColors: Record<string, string> = {
 function getTimeKey(date: Date | null | undefined): string {
   if (!date) return "";
   const d = new Date(date);
-  const hours = d.getHours();
-  const minutes = d.getMinutes();
-  const period = hours >= 12 ? "PM" : "AM";
-  const displayHours = hours % 12 || 12;
-  const displayMinutes = minutes === 0 ? "00" : String(minutes).padStart(2, "0");
-  return `${displayHours}:${displayMinutes} ${period}`;
+  return d.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: "America/Detroit",
+  });
 }
 
 export default async function AboutPage() {
