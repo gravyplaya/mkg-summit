@@ -1,7 +1,16 @@
 import { getSessions, getSpeakers } from "@/lib/api";
+import { RichText } from "@payloadcms/richtext-lexical/react";
+import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
-export const dynamic = 'force-dynamic';
-import type { Sessions as SessionType, Speakers as SpeakerType } from "@/payload-types";
+export const dynamic = "force-dynamic";
+import type {
+  Sessions as SessionType,
+  Speakers as SpeakerType,
+} from "@/payload-types";
+
+type SessionWithDescription = SessionType & {
+  description?: SerializedEditorState | null;
+};
 
 type SpeakerMap = Record<string, { name: string; company?: string | null }>;
 
@@ -40,7 +49,7 @@ export default async function AboutPage() {
     getSpeakers(),
   ]);
 
-  const sessions = sessionsResult.docs as SessionType[];
+  const sessions = sessionsResult.docs as SessionWithDescription[];
   const speakers = speakersResult.docs as SpeakerType[];
 
   const speakerMap: SpeakerMap = {};
@@ -48,7 +57,9 @@ export default async function AboutPage() {
     speakerMap[speaker.id] = { name: speaker.name, company: speaker.company };
   }
 
-  const sessionsByTimeKey = sessions.reduce<Record<string, SessionType[]>>((acc, session) => {
+  const sessionsByTimeKey = sessions.reduce<
+    Record<string, SessionWithDescription[]>
+  >((acc, session) => {
     if (!session.startTime) return acc;
     const key = getTimeKey(session.startTime);
     if (!acc[key]) acc[key] = [];
@@ -71,8 +82,8 @@ export default async function AboutPage() {
     },
     {
       time: "1:30 PM",
-      title: "National Keynote Speaker",
-      description: "National-level innovator sharing insights",
+      title: "Keynote Speaker",
+      description: "Innovator sharing insights",
       icon: "keynote",
     },
     {
@@ -116,7 +127,8 @@ export default async function AboutPage() {
   const venueInfo = {
     name: "VanDyk Mortgage Muskegon Convention Center",
     address: "123 Convention Drive, Muskegon, MI 49440",
-    description: "The VanDyk Mortgage Muskegon Convention Center offers state-of-the-art facilities with stunning views of Lake Michigan. Our event will utilize the main ballroom for keynotes and multiple breakout rooms for workshops and panels.",
+    description:
+      "The VanDyk Mortgage Muskegon Convention Center offers state-of-the-art facilities with stunning views of Lake Michigan. Our event will utilize the main ballroom for keynotes and multiple breakout rooms for workshops and panels.",
     amenities: [
       "Free parking for all attendees",
       "Complimentary WiFi throughout the venue",
@@ -144,13 +156,17 @@ export default async function AboutPage() {
           <div className="space-y-4">
             {schedule.map((item, index) => {
               const isDbSlot = !!item.dbTimeKey;
-              const displayTime = isDbSlot ? item.dbTimeKey : (item.time || "");
-              const dbSessions = isDbSlot ? (sessionsByTimeKey[item.dbTimeKey] || []) : [];
+              const displayTime = isDbSlot ? item.dbTimeKey : item.time || "";
+              const dbSessions = isDbSlot
+                ? sessionsByTimeKey[item.dbTimeKey] || []
+                : [];
 
               return (
                 <div key={index} className="flex gap-6 md:gap-12 group">
                   <div className="w-24 md:w-32 pt-1">
-                    <span className="text-white/40 text-sm md:text-base font-black uppercase tracking-widest">{displayTime}</span>
+                    <span className="text-white/40 text-sm md:text-base font-black uppercase tracking-widest">
+                      {displayTime}
+                    </span>
                   </div>
                   <div className="flex-1 pb-12 border-l border-white/10 pl-8 md:pl-12 relative">
                     <div className="absolute top-2 -left-[5px] w-2 h-2 rounded-full bg-[#FF4500] group-hover:scale-150 transition-transform" />
@@ -178,17 +194,29 @@ export default async function AboutPage() {
                                       {session.title}
                                     </h4>
                                     {session.track && (
-                                      <span className={`text-xs font-bold uppercase tracking-wider ${trackTextColors[track] || "text-white/40"}`}>
+                                      <span
+                                        className={`text-xs font-bold uppercase tracking-wider ${trackTextColors[track] || "text-white/40"}`}
+                                      >
                                         {trackLabels[track] || session.track}
                                       </span>
                                     )}
                                   </div>
-                                  {session.location && (
-                                    <p className="text-white/40 text-sm mb-1">{session.location}</p>
+                                  {session.description && (
+                                    <div className="text-white/60 text-sm mb-2 leading-relaxed">
+                                      <RichText data={session.description} />
+                                    </div>
                                   )}
+                                  {session.location && (
+                                    <p className="text-white/40 text-sm mb-1">
+                                      {session.location}
+                                    </p>
+                                  )}
+
                                   {sessionSpeakers.length > 0 && (
                                     <p className="text-white/50 text-sm">
-                                      {sessionSpeakers.map((s) => s.name).join(" &middot; ")}
+                                      {sessionSpeakers
+                                        .map((s) => s.name)
+                                        .join(" &middot; ")}
                                     </p>
                                   )}
                                 </div>
@@ -227,11 +255,18 @@ export default async function AboutPage() {
                 The <span className="text-[#3DD1CC]">Venue</span>
               </h2>
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-white">{venueInfo.name}</h3>
-                <p className="text-white/60 text-lg leading-relaxed">{venueInfo.description}</p>
+                <h3 className="text-2xl font-bold text-white">
+                  {venueInfo.name}
+                </h3>
+                <p className="text-white/60 text-lg leading-relaxed">
+                  {venueInfo.description}
+                </p>
                 <div className="space-y-3">
                   {venueInfo.amenities.map((item, i) => (
-                    <div key={i} className="flex items-center gap-3 text-white/80">
+                    <div
+                      key={i}
+                      className="flex items-center gap-3 text-white/80"
+                    >
                       <div className="w-1.5 h-1.5 rounded-full bg-[#FFB703]" />
                       <span>{item}</span>
                     </div>
