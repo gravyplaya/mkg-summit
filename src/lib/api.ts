@@ -4,6 +4,7 @@ export async function getSpeakers() {
   return payload.find({
     collection: 'speakers',
     sort: 'name',
+    limit: 0,
   })
 }
 
